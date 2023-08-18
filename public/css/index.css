@@ -534,7 +534,27 @@ input[type="checkbox"] {
 }
 
 .user {
-  margin-bottom: 20px;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 16px;
+  display: flex
+}
+
+.user-info {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+  display: flex
+}
+
+.user-name-email {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1px;
+  display: flex
 }
 
 .user img {
@@ -554,7 +574,6 @@ input[type="checkbox"] {
 
 .user p {
   font-size: 13px;
-  margin-bottom: 15px;
 }
 
 .user a {
@@ -640,6 +659,101 @@ input[type="checkbox"] {
   line-height: 24px;
   letter-spacing: 1px;
   word-wrap: break-word
+}
+
+.StateFollow {
+  padding-left: 32px;
+  padding-right: 32px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  background: #3ECDC6;
+  border-radius: 2px;
+  justify-content: center;
+  align-items: flex-start;
+  display: inline-flex;
+}
+
+.Follow-button {
+  text-align: center;
+  color: white;
+  font-size: 16px;
+  font-family: Arial;
+  font-weight: 400;
+  letter-spacing: 2px;
+  word-wrap: break-word;
+  line-height: normal;
+}
+
+.StateFollowing {
+  padding-left: 32px;
+  padding-right: 32px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border-radius: 2px;
+  border: 0.50px #3ECDC6 solid;
+  justify-content: center;
+  align-items: flex-start;
+  display: inline-flex
+}
+
+.Following-button {
+  text-align: center;
+  color: #3ECDC6;
+  font-size: 16px;
+  font-family: Arial;
+  font-weight: 400;
+  letter-spacing: 2px;
+  word-wrap: break-word;
+  line-height: normal;
+}
+
+.StateUnfollow {
+  width: 148px;
+  padding-left: 32px;
+  padding-right: 32px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  background: rgba(231, 82, 82, 0.10);
+  border-radius: 2px;
+  border: 0.50px #E75252 solid;
+  justify-content: center;
+  align-items: flex-start;
+  display: inline-flex
+}
+
+.Unfollow-button {
+  text-align: center;
+  color: #E75252;
+  font-size: 16px;
+  font-family: Arial;
+  font-weight: 400;
+  letter-spacing: 2px;
+  word-wrap: break-word;
+  line-height: normal;
+}
+
+.StateCancel {
+  width: 148px;
+  padding-left: 32px;
+  padding-right: 32px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border-radius: 2px;
+  border: 0.50px #0B0F15 solid;
+  justify-content: center;
+  align-items: flex-start;
+  display: inline-flex
+}
+
+.Cancel-button {
+  text-align: center;
+  color: #0B0F15;
+  font-size: 16px;
+  font-family: Arial;
+  font-weight: 400;
+  letter-spacing: 2px;
+  word-wrap: break-word;
+  line-height: normal;
 }
 
 /* users/new, users/edit ================================ */
