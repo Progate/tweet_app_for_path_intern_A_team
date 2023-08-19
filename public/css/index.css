@@ -187,6 +187,13 @@ body {
   align-items: center;
   clear: both;
   visibility: hidden;
+  transition: ease-in-out .3s;
+  opacity: 0;
+}
+
+.modal.show {
+  opacity: 1;
+  visibility: visible;
 }
 
 .close-button {
