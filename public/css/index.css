@@ -1,26 +1,26 @@
 body {
-    margin: 0;
+  margin: 0;
 }
 
 ul {
-    margin: 0;
+  margin: 0;
 }
 
 a:hover {
-    background: none;
+  background: none;
 }
 
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 header {
-    color: white;
+  color: white;
 }
 
 /* reset ================================ */
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 html {
@@ -29,7 +29,8 @@ html {
   letter-spacing: 1px;
 }
 
-ul, li {
+ul,
+li {
   list-style-type: none;
   padding: 0;
   margin: 0;
@@ -41,7 +42,13 @@ a {
   font-size: 14px;
 }
 
-h1, h2, h3, h4, h5, h6, p {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
   margin: 0;
 }
 
@@ -80,6 +87,89 @@ body {
   clear: both;
 }
 
+.Follow-button {
+  padding-left: 32px;
+  padding-right: 32px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  background: #3ECDC6;
+  border-radius: 2px;
+  justify-content: center;
+  align-items: flex-start;
+  display: inline-flex;
+  text-align: center;
+  color: white;
+  font-size: 16px;
+  font-family: Arial;
+  font-weight: 400;
+  letter-spacing: 2px;
+  word-wrap: break-word;
+  line-height: normal;
+}
+
+.Following-button {
+  padding-left: 32px;
+  padding-right: 32px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border-radius: 2px;
+  border: 0.50px #3ECDC6 solid;
+  justify-content: center;
+  align-items: flex-start;
+  display: inline-flex;
+  text-align: center;
+  color: #3ECDC6;
+  font-size: 16px;
+  font-family: Arial;
+  font-weight: 400;
+  letter-spacing: 2px;
+  word-wrap: break-word;
+  line-height: normal;
+}
+
+.Unfollow-button {
+  width: 148px;
+  padding-left: 32px;
+  padding-right: 32px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  background: rgba(231, 82, 82, 0.10);
+  border-radius: 2px;
+  border: 0.50px #E75252 solid;
+  justify-content: center;
+  align-items: flex-start;
+  display: inline-flex;
+  text-align: center;
+  color: #E75252;
+  font-size: 16px;
+  font-family: Arial;
+  font-weight: 400;
+  letter-spacing: 2px;
+  word-wrap: break-word;
+  line-height: normal;
+}
+
+.Cancel-button {
+  width: 148px;
+  padding-left: 32px;
+  padding-right: 32px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border-radius: 2px;
+  border: 0.50px #0B0F15 solid;
+  justify-content: center;
+  align-items: flex-start;
+  display: inline-flex;
+  text-align: center;
+  color: #0B0F15;
+  font-size: 16px;
+  font-family: Arial;
+  font-weight: 400;
+  letter-spacing: 2px;
+  word-wrap: break-word;
+  line-height: normal;
+}
+
 /* header ================================ */
 header {
   height: 64px;
@@ -96,7 +186,7 @@ header {
   line-height: 64px;
 }
 
-.header-logo a{
+.header-logo a {
   color: white;
   font-size: 22px;
 }
@@ -284,6 +374,14 @@ header {
   color: #3ecdc6;
 }
 
+.post-header {
+  align-self: stretch;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  display: inline-flex
+}
+
 .post-left {
   float: left;
   width: 10%;
@@ -382,7 +480,8 @@ img[data-test=post-image] {
   float: right;
 }
 
-.post-menus a, .post-menus input {
+.post-menus a,
+.post-menus input {
   color: #8899a6;
   text-decoration: underline;
   font-size: 14px;
@@ -661,100 +760,6 @@ input[type="checkbox"] {
   word-wrap: break-word
 }
 
-.StateFollow {
-  padding-left: 32px;
-  padding-right: 32px;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  background: #3ECDC6;
-  border-radius: 2px;
-  justify-content: center;
-  align-items: flex-start;
-  display: inline-flex;
-}
-
-.Follow-button {
-  text-align: center;
-  color: white;
-  font-size: 16px;
-  font-family: Arial;
-  font-weight: 400;
-  letter-spacing: 2px;
-  word-wrap: break-word;
-  line-height: normal;
-}
-
-.StateFollowing {
-  padding-left: 32px;
-  padding-right: 32px;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  border-radius: 2px;
-  border: 0.50px #3ECDC6 solid;
-  justify-content: center;
-  align-items: flex-start;
-  display: inline-flex
-}
-
-.Following-button {
-  text-align: center;
-  color: #3ECDC6;
-  font-size: 16px;
-  font-family: Arial;
-  font-weight: 400;
-  letter-spacing: 2px;
-  word-wrap: break-word;
-  line-height: normal;
-}
-
-.StateUnfollow {
-  width: 148px;
-  padding-left: 32px;
-  padding-right: 32px;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  background: rgba(231, 82, 82, 0.10);
-  border-radius: 2px;
-  border: 0.50px #E75252 solid;
-  justify-content: center;
-  align-items: flex-start;
-  display: inline-flex
-}
-
-.Unfollow-button {
-  text-align: center;
-  color: #E75252;
-  font-size: 16px;
-  font-family: Arial;
-  font-weight: 400;
-  letter-spacing: 2px;
-  word-wrap: break-word;
-  line-height: normal;
-}
-
-.StateCancel {
-  width: 148px;
-  padding-left: 32px;
-  padding-right: 32px;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  border-radius: 2px;
-  border: 0.50px #0B0F15 solid;
-  justify-content: center;
-  align-items: flex-start;
-  display: inline-flex
-}
-
-.Cancel-button {
-  text-align: center;
-  color: #0B0F15;
-  font-size: 16px;
-  font-family: Arial;
-  font-weight: 400;
-  letter-spacing: 2px;
-  word-wrap: break-word;
-  line-height: normal;
-}
 
 /* users/new, users/edit ================================ */
 .users-form input {

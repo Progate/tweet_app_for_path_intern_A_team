@@ -26,10 +26,8 @@
       <% if(currentUser.id === user.id) { %>
         <a href="<%= `/users/${user.id}/edit` %>">Edit</a>
       <% } else { %>
-        <div class="StateFollow">
           <div class="Follow-button">
             Follow</div>
-        </div>
       <% } %>
       
     </div>
