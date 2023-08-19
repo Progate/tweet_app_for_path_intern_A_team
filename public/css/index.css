@@ -374,14 +374,6 @@ header {
   color: #3ecdc6;
 }
 
-.post-header {
-  align-self: stretch;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
-  display: inline-flex
-}
-
 .post-left {
   float: left;
   width: 10%;
@@ -429,6 +421,13 @@ img[data-test=post-image] {
 .posts-show-item p {
   font-size: 24px;
   margin: 20px 0;
+}
+
+.post-header {
+  align-self: stretch;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
 }
 
 .post-time {
