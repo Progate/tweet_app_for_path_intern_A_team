@@ -87,7 +87,7 @@ body {
   clear: both;
 }
 
-.Follow-button {
+.follow-button {
   padding-left: 32px;
   padding-right: 32px;
   padding-top: 8px;
@@ -105,9 +105,10 @@ body {
   letter-spacing: 2px;
   word-wrap: break-word;
   line-height: normal;
+  cursor: pointer;
 }
 
-.Following-button {
+.following-button {
   padding-left: 32px;
   padding-right: 32px;
   padding-top: 8px;
@@ -125,9 +126,10 @@ body {
   letter-spacing: 2px;
   word-wrap: break-word;
   line-height: normal;
+  cursor: pointer;
 }
 
-.Unfollow-button {
+.unfollow-button {
   width: 148px;
   padding-left: 32px;
   padding-right: 32px;
@@ -147,9 +149,10 @@ body {
   letter-spacing: 2px;
   word-wrap: break-word;
   line-height: normal;
+  cursor: pointer;
 }
 
-.Cancel-button {
+.cancel-button {
   width: 148px;
   padding-left: 32px;
   padding-right: 32px;
@@ -168,7 +171,47 @@ body {
   letter-spacing: 2px;
   word-wrap: break-word;
   line-height: normal;
+  cursor: pointer;
 }
+
+.modal {
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  left: 0px;
+  top: 0px;
+  position: absolute;
+  background: rgba(0, 0, 0, 0.70);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  clear: both;
+  visibility: hidden;
+}
+
+.close-button {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.close-button::before,
+.close-button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2px;
+  height: 100%;
+  background-color: black;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.close-button::before {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
 
 /* header ================================ */
 header {
@@ -715,16 +758,20 @@ input[type="checkbox"] {
   justify-content: flex-start;
   align-items: center;
   gap: 16px;
-  display: inline-flex
+  display: inline-flex;
+  cursor: pointer;
 }
 
+.Follow a{
+  text-decoration: none;
+}
 .Followers {
   justify-content: flex-start;
   align-items: flex-start;
   gap: 8px;
-  display: flex
+  display: flex;
+  cursor: pointer;
 }
-
 
 .Vector1 {
   width: 0px;
@@ -759,7 +806,79 @@ input[type="checkbox"] {
   word-wrap: break-word
 }
 
+.follo-follower-list {
+  top: 150px;
+  position: absolute;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: flex-start;
+  display: inline-flex;
+  width: 40%;
+}
 
+.follo-follower-list-header {
+  align-self: stretch;
+  height: 57.80px;
+  padding-left: 16px;
+  padding-right: 16px;
+  background: white;
+  box-shadow: 0px 2px 6px #C1CED7;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  display: inline-flex;
+}
+
+.selectable-items {
+  justify-content: flex-start;
+  align-items: flex-start;
+  display: flex;
+}
+
+.selectable-item-selected {
+  padding-top: 15px;
+  padding-bottom: 18.80px;
+  padding-left: 30px;
+  padding-right: 30.76px;
+  border-bottom: 1px #3ECDC6 solid;
+  justify-content: center;
+  align-items: flex-start;
+  display: flex;
+  text-align: center;
+  color: #57575F;
+  font-size: 14px;
+  font-family: "Avenir Next";
+  font-weight: 400;
+  line-height: 23.80px;
+  letter-spacing: 1px;
+  word-wrap: break-word;
+  cursor: pointer;
+}
+
+.selectable-item {
+  padding-top: 15px;
+  padding-bottom: 18.80px;
+  padding-left: 30px;
+  padding-right: 30.76px;
+  justify-content: center;
+  align-items: flex-start;
+  display: flex;
+  text-align: center;
+  color: #AFB6BF;
+  font-size: 14px;
+  font-family: "Avenir Next";
+  font-weight: 400;
+  line-height: 23.80px;
+  letter-spacing: 1px;
+  word-wrap: break-word;
+  cursor: pointer;
+}
+
+.follo-follower-list-button {
+  padding-left: 25px;
+  display: table-cell;
+  vertical-align: middle;
+}
 /* users/new, users/edit ================================ */
 .users-form input {
   margin-bottom: 15px;

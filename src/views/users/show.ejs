@@ -4,16 +4,20 @@
       <img src="<%= user.imageName %>" data-test="user-image">
       <div class="user-info">
         <div class="user-name-email">
-        <h2 data-test="user-name"><%= user.name %></h2>
-        <p data-test="user-email"><%= user.email %></p>
-      </div>
+          <h2 data-test="user-name">
+            <%= user.name %>
+          </h2>
+          <p data-test="user-email">
+            <%= user.email %>
+          </p>
+        </div>
         <div class="Follow">
-          <div class="Followers">
+          <div class="Followers" href="">
             <div class="LinkKenTheNinja-num">
               4</div>
             <div class="LinkKenTheNinja">
               Followers</div>
-          </div>
+            </div>
           <div class="Vector1"></div>
           <div class="Following">
             <div class="LinkKenTheNinja-num">
@@ -23,13 +27,13 @@
           </div>
         </div>
       </div>
-      <% if(currentUser.id === user.id) { %>
+      <% if(currentUser.id===user.id) { %>
         <a href="<%= `/users/${user.id}/edit` %>">Edit</a>
-      <% } else { %>
-          <div class="Follow-button">
+        <% } else { %>
+          <div class="follow-button">
             Follow</div>
-      <% } %>
-      
+          <% } %>
+
     </div>
     <ul class="user-tabs">
       <li class="active">
@@ -40,5 +44,39 @@
       </li>
     </ul>
     <%- include('../_timeline', {timeline: timeline}); %>
+
+
   </div>
 </div>
+<div class="modal">
+  <div class="follo-follower-list">
+    <div class="follo-follower-list-header">
+      <div class="selectable-items">
+        <div class="selectable-item-selected">
+          Followers
+        </div>
+        <div class="selectable-item">
+          Following
+        </div>
+      </div>
+      <div class="close-button">
+      </div>
+    </div>
+
+    <div class="users-index-item">
+      <div class="user-left">
+        <img class="user-left" src="../image/users/default_user.jpg">
+      </div>
+
+      <div class="user-right">
+        <a href="/users/3" data-test="user-item-link">test_test</a>
+      </div>
+
+      <div class="follo-follower-list-button">
+        <div class="follow-button">Follow</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="../js/ff.js"></script>
