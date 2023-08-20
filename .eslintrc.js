@@ -27,8 +27,8 @@ module.exports = {
     ],
     camelcase: "error",
   },
-  "env": {
-    "browser": true,
-    "jquery" : true
+  env: {
+    browser: true,
+    jquery: true,
   },
 };
