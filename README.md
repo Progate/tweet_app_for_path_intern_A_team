@@ -195,3 +195,61 @@ will run all tests in this project:
 - `format:check`: check format by prettier,
 - `format:fix`: check format by prettier with auto fix,
 - `start`: start production mode
+
+## DB System
+
+```Mermaid
+erDiagram
+    users {        
+        bigint id PK "ID"
+        varchar(255) email "メールアドレス"
+        varchar(255) name "名前" 
+        varchar(255) image_name "画像ファイル名"
+        char(20) password "パスワード" 
+        datetime created_at "作成日時"
+        datetime updated_at "更新日時"
+    }
+
+    posts {
+        bigint id PK "ID"
+        bigint user_id FK "投稿したユーザーのID"
+        varchar(140) content "内容"
+        datetime created_at "作成日時"
+        datetime updated_at "更新日時"
+    }
+
+    likes {
+        bigint id  PK "ID"
+        bigint user_id  FK "いいねしたユーザーのID"
+        bigint post_id  FK "いいねした投稿のID"
+        datetime created_at "作成日時"
+    }
+
+    retweets {
+        bigint user_id FK "リツイートしたユーザーのID"
+        bigint post_id FK "リツイートした投稿のID"
+        datetime retweeted_at "リツイートした日時"
+    }
+
+    follows {
+        bigint following_id FK "フォローしているユーザーのID"
+        bigint followed_id FK "フォローされたユーザーのID"
+        datetime followed_at "フォローした日時"
+    }
+
+    ff_counts {
+        bigint user_id FK "ユーザーのID"
+        bitint following_count "フォローしている数"
+        bigint followed_count "フォローされている数"
+    }
+
+    users ||--o{ likes : ""
+    users ||--o{ posts : ""
+    users ||--|| ff_counts : ""
+    posts ||--o{ likes : ""
+    users ||--o{ retweets : ""
+    posts ||--o{ retweets : ""
+    users ||--o{ follows : "following"
+    users ||--o{ follows : "followed"
+    
+```
