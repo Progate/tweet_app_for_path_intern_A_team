@@ -63,6 +63,7 @@ model Follow {
   followingId  Int   @map("following_id")
   followed     User  @relation("followed", fields: [followedId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   followedId   Int   @map("followed_id")
+  createdAt    DateTime @map("created_at") @default(now())
   @@id([followingId, followedId])
   @@map("follows")
 }
