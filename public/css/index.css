@@ -842,26 +842,6 @@ input[type="checkbox"] {
   display: flex;
 }
 
-.selectable-item-selected {
-  padding-top: 15px;
-  padding-bottom: 18.80px;
-  padding-left: 30px;
-  padding-right: 30.76px;
-  border-bottom: 1px #3ECDC6 solid;
-  justify-content: center;
-  align-items: flex-start;
-  display: flex;
-  text-align: center;
-  color: #57575F;
-  font-size: 14px;
-  font-family: "Avenir Next";
-  font-weight: 400;
-  line-height: 23.80px;
-  letter-spacing: 1px;
-  word-wrap: break-word;
-  cursor: pointer;
-}
-
 .selectable-item {
   padding-top: 15px;
   padding-bottom: 18.80px;
@@ -879,6 +859,11 @@ input[type="checkbox"] {
   letter-spacing: 1px;
   word-wrap: break-word;
   cursor: pointer;
+}
+
+.selectable-item.selected {
+  border-bottom: 1px #3ECDC6 solid;
+  color: #57575F;
 }
 
 .follo-follower-list-button {

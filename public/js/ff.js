@@ -1,3 +1,8 @@
+const apiUrls = {
+  followers: `/api/followers/${location.pathname.split("/")[2]}`,
+  following: `/api/following/${location.pathname.split("/")[2]}`
+};
+
 const followersLink = document.querySelector(".Followers");
 const followingLink = document.querySelector(".Following");
 const closeButton = document.querySelector(".close-button");
@@ -17,22 +22,25 @@ followingLink.addEventListener("click", () => {
   followingItem.click();
 });
 
-window.addEventListener("click", event => {
-  if (event.target == closeButton) {
+closeButton.addEventListener("click", () => {
     modal.classList.remove("show");
-  }
 });
 
-followersItem.addEventListener("click", () => {
-  if (!followersItem.classList.contains("selectable-item-selected")) {
-    followersItem.classList.add("selectable-item-selected");
-    followersItem.classList.remove("selectable-item");
-    followingItem.classList.add("selectable-item");
-    followingItem.classList.remove("selectable-item-selected");
 
-    const userID = "3";
+followersItem.addEventListener("click", () =>
+  toggleFollowersFollowing(followersItem, followingItem, apiUrls.followers)
+);
 
-    fetch(`/api/followers/${userID}`)
+followingItem.addEventListener("click", () =>
+  toggleFollowersFollowing(followingItem, followersItem, apiUrls.following)
+);
+
+const toggleFollowersFollowing = (item1, item2, apiEndpoint) => {
+  if (!item1.classList.contains("selected")) {
+    item1.classList.add("selected");
+    item2.classList.remove("selected");
+
+    fetch(apiEndpoint)
       .then(response => response.json())
       .then(data => {
         data.forEach(user => {
@@ -60,8 +68,10 @@ followersItem.addEventListener("click", () => {
           const followButton = document.createElement("div");
           followButton.className = "follo-follower-list-button";
           const followButtonInner = document.createElement("div");
-          followButtonInner.className = "follow-button";
-          followButtonInner.textContent = "Follow";
+          followButtonInner.className =
+            apiEndpoint.includes("followers") ? "follow-button" : "following-button";
+          followButtonInner.textContent =
+            apiEndpoint.includes("followers") ? "Follow" : "Following";
           followButton.appendChild(followButtonInner);
           div.appendChild(followButton);
 
@@ -69,51 +79,6 @@ followersItem.addEventListener("click", () => {
         });
       });
   }
-});
+};
 
-followingItem.addEventListener("click", () => {
-  if (!followingItem.classList.contains("selectable-item-selected")) {
-    followingItem.classList.add("selectable-item-selected");
-    followingItem.classList.remove("selectable-item");
-    followersItem.classList.add("selectable-item");
-    followersItem.classList.remove("selectable-item-selected");
 
-    const userID = "3";
-
-    fetch(`/api/followers/${userID}`)
-      .then(response => response.json())
-      .then(data => {
-        data.forEach(user => {
-          const div = document.createElement("div");
-          div.className = "users-index-item";
-
-          const userLeft = document.createElement("div");
-          userLeft.className = "user-left";
-          const userIcon = document.createElement("img");
-          userIcon.className = "user-left";
-          userIcon.src = user.iconURL;
-          userLeft.appendChild(userIcon);
-          div.appendChild(userLeft);
-
-          const userRight = document.createElement("div");
-          userRight.className = "user-right";
-          const userLink = document.createElement("a");
-          userLink.href = "/users/" + user.userID;
-          userLink.setAttribute("data-test", "user-item-link");
-          userLink.textContent = user.userName;
-          userRight.appendChild(userLink);
-          div.appendChild(userRight);
-
-          const followButton = document.createElement("div");
-          followButton.className = "follo-follower-list-button";
-          const followButtonInner = document.createElement("div");
-          followButtonInner.className = "following-button"; //押さえたら変えるようにしよう
-          followButtonInner.textContent = "Following";
-          followButton.appendChild(followButtonInner);
-          div.appendChild(followButton);
-
-          document.querySelector(".follo-follower-list").appendChild(div);
-        });
-      });
-  }
-});
