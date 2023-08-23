@@ -102,9 +102,6 @@ const toggleFollowersFollowing = (item1, item2, apiEndpoint) => {
           followButtonInner.className = apiEndpoint.includes("followers")
             ? "follow button"
             : "following button";
-          followButtonInner.textContent = apiEndpoint.includes("followers")
-            ? "Follow"
-            : "Following";
           followButtonInner.setAttribute("data-user-id", user.userID);
           followButton.appendChild(followButtonInner);
           div.appendChild(followButton);
