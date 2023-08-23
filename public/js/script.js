@@ -5,55 +5,62 @@ const apiUrls = {
   unfollow: `/api/unfollow`
 };
 
+const selectableItems = document.querySelector(".selectable-items");
 const modal = document.querySelector(".modal");
 
-const followersLink = document.querySelector(".followers");
-const followingLink = document.querySelector(".following");
-const closeButton = document.querySelector(".close-button");
-
-const buttons = document.querySelectorAll(".button");
-
-const selectableItems = document.querySelector(".selectable-items");
-const followersItem = selectableItems.querySelector('[name="followers"]');
-const followingItem = selectableItems.querySelector('[name="following"]');
+let followersItem, followingItem
 
 let modalClickEnabled = true;
 
-followersLink.addEventListener("click", () => {
-  modal.classList.add("show");
-  modalClickEnabled = false;
-  setTimeout(() => {
-    modalClickEnabled = true;
-  }, 300);
-  followersItem.click();
-});
+window.addEventListener("click", () => {
 
-followingLink.addEventListener("click", () => {
-  modal.classList.add("show");
-  modalClickEnabled = false;
-  setTimeout(() => {
-    modalClickEnabled = true;
-  }, 300);
-  followingItem.click();
-});
+  if (event.target.closest(".followers") && event.target.closest(".follows-followers")) {
+    modal.classList.add("show");
+    modalClickEnabled = false;
+    setTimeout(() => {
+      modalClickEnabled = true;
+    }, 300);
+    followersItem.click();
+  };
 
-closeButton.addEventListener("click", () => {
-  modal.classList.remove("show");
-});
+  if (event.target.closest(".following") && event.target.closest(".follows-followers")) {
+    modal.classList.add("show");
+    modalClickEnabled = false;
+    setTimeout(() => {
+      modalClickEnabled = true;
+    }, 300);
+    followingItem.click();
+  }
 
-modal.addEventListener("click", () => {
-  if (event.target === modal && modalClickEnabled) {
+  if (event.target.classList.contains("close-button")) {
     modal.classList.remove("show");
   }
+
+  if (event.target.classList.contains("modal")) {
+    if (event.target === modal && modalClickEnabled) {
+      modal.classList.remove("show");
+    }
+  }
+
+  if (event.target.classList.contains("button")) {
+    pushButton(event.target);
+  }
+
 });
 
-followersItem.addEventListener("click", () =>
-  toggleFollowersFollowing(followersItem, followingItem, apiUrls.followers)
-);
+if (selectableItems) {
+  followersItem = selectableItems.querySelector('[name="followers"]');
+  followingItem = selectableItems.querySelector('[name="following"]');
 
-followingItem.addEventListener("click", () =>
-  toggleFollowersFollowing(followingItem, followersItem, apiUrls.followings)
-);
+  followersItem.addEventListener("click", () =>
+    toggleFollowersFollowing(followersItem, followingItem, apiUrls.followers)
+  );
+
+  followingItem.addEventListener("click", () =>
+    toggleFollowersFollowing(followingItem, followersItem, apiUrls.followings)
+  );
+
+}
 
 const toggleFollowersFollowing = (item1, item2, apiEndpoint) => {
   if (!item1.classList.contains("selected")) {
@@ -92,6 +99,7 @@ const toggleFollowersFollowing = (item1, item2, apiEndpoint) => {
             apiEndpoint.includes("followers") ? "follow button" : "following button";
           followButtonInner.textContent =
             apiEndpoint.includes("followers") ? "Follow" : "Following";
+          followButtonInner.setAttribute("data-user-id", user.userID);
           followButton.appendChild(followButtonInner);
           div.appendChild(followButton);
 
@@ -101,47 +109,45 @@ const toggleFollowersFollowing = (item1, item2, apiEndpoint) => {
   }
 };
 
-buttons.forEach(button => {
-  button.addEventListener("click", () => {
-    const userID = button.getAttribute("data-user-id");
-    let apiEndpoint, removeClass, addClass, newTextContent;
+const pushButton = (button) => {
+  const userID = button.getAttribute("data-user-id");
+  let apiEndpoint, removeClass, addClass, newTextContent;
 
-    if (button.classList.contains("follow")) {
-      apiEndpoint = `${apiUrls.follow}/${userID}`;
-      removeClass = "follow";
-      addClass = "following";
-      newTextContent = "Following";
-    } else if (button.classList.contains("following")) {
-      apiEndpoint = `${apiUrls.unfollow}/${userID}`;
-      removeClass = "following";
-      addClass = "follow";
-      newTextContent = "Follow";
-    }
+  if (button.classList.contains("follow")) {
+    apiEndpoint = `${apiUrls.follow}/${userID}`;
+    removeClass = "follow";
+    addClass = "following";
+    newTextContent = "Following";
+  } else if (button.classList.contains("following")) {
+    apiEndpoint = `${apiUrls.unfollow}/${userID}`;
+    removeClass = "following";
+    addClass = "follow";
+    newTextContent = "Follow";
+  }
 
-    // ボタンの表示を切り替える
-    button.classList.remove(removeClass);
-    button.classList.add(addClass);
-    button.textContent = newTextContent;
+  // ボタンの表示を切り替える
+  button.classList.remove(removeClass);
+  button.classList.add(addClass);
+  button.textContent = newTextContent;
 
-    fetch(apiEndpoint, {
-      method: "POST"
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (!data.success) {
-          // エラーが発生した場合は、元に戻す
-          button.classList.remove(addClass);
-          button.classList.add(removeClass);
-          button.textContent = removeClass === "follow" ? "Follow" : "Following";
-          alert("エラーが発生しました。もう一度お試しください。");
-        }
-      })
-      .catch(error => {
+  fetch(apiEndpoint, {
+    method: "POST"
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (!data.success) {
         // エラーが発生した場合は、元に戻す
         button.classList.remove(addClass);
         button.classList.add(removeClass);
         button.textContent = removeClass === "follow" ? "Follow" : "Following";
         alert("エラーが発生しました。もう一度お試しください。");
-      });
-  });
-});
+      }
+    })
+    .catch(error => {
+      // エラーが発生した場合は、元に戻す
+      button.classList.remove(addClass);
+      button.classList.add(removeClass);
+      button.textContent = removeClass === "follow" ? "Follow" : "Following";
+      alert("エラーが発生しました。もう一度お試しください。");
+    });
+}
