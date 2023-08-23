@@ -6,8 +6,9 @@
           <img class="posts-show-item-image" src="<%= post.user.imageName %>" data-test="user-image">
           <a href="/users/<%= post.user.id %>" data-test="user-name"><%= post.user.name %></a>
         </div>
-        <div class="follow-button">
-          Follow</div>
+        <% if(currentUser.id!==user.id) { %>
+          <div class="follow-button">Follow</div>
+        <% } %>
       </div>
       <p data-test="post-content">
         <%= post.content %>

@@ -17,7 +17,7 @@
               4</div>
             <div class="LinkKenTheNinja">
               Followers</div>
-            </div>
+          </div>
           <div class="Vector1"></div>
           <div class="Following">
             <div class="LinkKenTheNinja-num">
@@ -29,10 +29,10 @@
       </div>
       <% if(currentUser.id===user.id) { %>
         <a href="<%= `/users/${user.id}/edit` %>">Edit</a>
-        <% } else { %>
-          <div class="follow-button">
-            Follow</div>
-          <% } %>
+      <% } else { %>
+        <div class="follow-button">
+          Follow</div>
+      <% } %>
 
     </div>
     <ul class="user-tabs">
@@ -74,7 +74,7 @@
         <div class="follow-button">Follow</div>
       </div>
     </div>
-    
+
   </div>
 </div>
 <script src="../js/ff.js"></script>
