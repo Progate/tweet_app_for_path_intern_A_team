@@ -7,7 +7,7 @@
           <a href="/users/<%= post.user.id %>" data-test="user-name"><%= post.user.name %></a>
         </div>
         <% if(post.user.id !== currentUser.id) { %>
-          <div class="follow-button">Follow</div>
+          <div class="button follow">Follow</div>
         <% } %>
       </div>
       <p data-test="post-content">

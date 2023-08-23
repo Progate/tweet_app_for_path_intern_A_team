@@ -1,13 +1,17 @@
 const apiUrls = {
   followers: `/api/followers/${location.pathname.split("/")[2]}`,
-  following: `/api/following/${location.pathname.split("/")[2]}`
+  followings: `/api/following/${location.pathname.split("/")[2]}`,
+  follow: `/api/follow`,
+  unfollow: `/api/unfollow`
 };
 
 const modal = document.querySelector(".modal");
 
-const followersLink = document.querySelector(".Followers");
-const followingLink = document.querySelector(".Following");
+const followersLink = document.querySelector(".followers");
+const followingLink = document.querySelector(".following");
 const closeButton = document.querySelector(".close-button");
+
+const buttons = document.querySelectorAll(".button");
 
 const selectableItems = document.querySelector(".selectable-items");
 const followersItem = selectableItems.querySelector('[name="followers"]');
@@ -48,7 +52,7 @@ followersItem.addEventListener("click", () =>
 );
 
 followingItem.addEventListener("click", () =>
-  toggleFollowersFollowing(followingItem, followersItem, apiUrls.following)
+  toggleFollowersFollowing(followingItem, followersItem, apiUrls.followings)
 );
 
 const toggleFollowersFollowing = (item1, item2, apiEndpoint) => {
@@ -82,19 +86,62 @@ const toggleFollowersFollowing = (item1, item2, apiEndpoint) => {
 
           //ここはユーザーのフォロー状況に合わせて変える
           const followButton = document.createElement("div");
-          followButton.className = "follo-follower-list-button";
+          followButton.className = "follows-followers-list-button";
           const followButtonInner = document.createElement("div");
           followButtonInner.className =
-            apiEndpoint.includes("followers") ? "follow-button" : "following-button";
+            apiEndpoint.includes("followers") ? "follow button" : "following button";
           followButtonInner.textContent =
             apiEndpoint.includes("followers") ? "Follow" : "Following";
           followButton.appendChild(followButtonInner);
           div.appendChild(followButton);
 
-          document.querySelector(".follo-follower-list").appendChild(div);
+          document.querySelector(".follows-followers-list").appendChild(div);
         });
       });
   }
 };
 
+buttons.forEach(button => {
+  button.addEventListener("click", () => {
+    const userID = button.getAttribute("data-user-id");
+    let apiEndpoint, removeClass, addClass, newTextContent;
 
+    if (button.classList.contains("follow")) {
+      apiEndpoint = `${apiUrls.follow}/${userID}`;
+      removeClass = "follow";
+      addClass = "following";
+      newTextContent = "Following";
+    } else if (button.classList.contains("following")) {
+      apiEndpoint = `${apiUrls.unfollow}/${userID}`;
+      removeClass = "following";
+      addClass = "follow";
+      newTextContent = "Follow";
+    }
+
+    // ボタンの表示を切り替える
+    button.classList.remove(removeClass);
+    button.classList.add(addClass);
+    button.textContent = newTextContent;
+
+    fetch(apiEndpoint, {
+      method: "POST"
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (!data.success) {
+          // エラーが発生した場合は、元に戻す
+          button.classList.remove(addClass);
+          button.classList.add(removeClass);
+          button.textContent = removeClass === "follow" ? "Follow" : "Following";
+          alert("エラーが発生しました。もう一度お試しください。");
+        }
+      })
+      .catch(error => {
+        // エラーが発生した場合は、元に戻す
+        button.classList.remove(addClass);
+        button.classList.add(removeClass);
+        button.textContent = removeClass === "follow" ? "Follow" : "Following";
+        alert("エラーが発生しました。もう一度お試しください。");
+      });
+  });
+});
