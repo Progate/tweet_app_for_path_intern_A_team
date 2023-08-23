@@ -108,8 +108,14 @@ body {
 }
 
 .button.follow {
+  padding-top: 8.50px;
+  padding-bottom: 8.50px;
   background: #3ECDC6;
   color: white;
+}
+
+.button.follow::before {
+  content: 'Follow';
 }
 
 .button.following {
@@ -117,15 +123,27 @@ body {
   color: #3ECDC6;
 }
 
-.button.unfollow {
+.button.following::before {
+  content: 'Following';
+}
+
+.button.following:hover {
   background: rgba(231, 82, 82, 0.10);
   border: 0.50px #E75252 solid;
   color: #E75252;
 }
 
+.button.following:hover::before {
+  content: 'Unfollow';
+}
+
 .button.cancel {
   border: 0.50px #0B0F15 solid;
   color: #0B0F15;
+}
+
+.button.cancel::before {
+  content: 'Cancel';
 }
 
 .modal {

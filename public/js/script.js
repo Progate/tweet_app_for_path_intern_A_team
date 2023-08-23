@@ -111,24 +111,21 @@ const toggleFollowersFollowing = (item1, item2, apiEndpoint) => {
 
 const pushButton = (button) => {
   const userID = button.getAttribute("data-user-id");
-  let apiEndpoint, removeClass, addClass, newTextContent;
+  let apiEndpoint, removeClass, addClass;
 
   if (button.classList.contains("follow")) {
     apiEndpoint = `${apiUrls.follow}/${userID}`;
     removeClass = "follow";
     addClass = "following";
-    newTextContent = "Following";
   } else if (button.classList.contains("following")) {
     apiEndpoint = `${apiUrls.unfollow}/${userID}`;
     removeClass = "following";
     addClass = "follow";
-    newTextContent = "Follow";
   }
 
   // ボタンの表示を切り替える
   button.classList.remove(removeClass);
   button.classList.add(addClass);
-  button.textContent = newTextContent;
 
   fetch(apiEndpoint, {
     method: "POST"
@@ -139,7 +136,6 @@ const pushButton = (button) => {
         // エラーが発生した場合は、元に戻す
         button.classList.remove(addClass);
         button.classList.add(removeClass);
-        button.textContent = removeClass === "follow" ? "Follow" : "Following";
         alert("エラーが発生しました。もう一度お試しください。");
       }
     })
@@ -147,7 +143,6 @@ const pushButton = (button) => {
       // エラーが発生した場合は、元に戻す
       button.classList.remove(addClass);
       button.classList.add(removeClass);
-      button.textContent = removeClass === "follow" ? "Follow" : "Following";
       alert("エラーが発生しました。もう一度お試しください。");
     });
 }
