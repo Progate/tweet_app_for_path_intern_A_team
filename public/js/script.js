@@ -3,6 +3,8 @@ const apiUrls = {
   following: `/api/following/${location.pathname.split("/")[2]}`
 };
 
+const modal = document.querySelector(".modal");
+
 const followersLink = document.querySelector(".Followers");
 const followingLink = document.querySelector(".Following");
 const closeButton = document.querySelector(".close-button");
@@ -11,21 +13,35 @@ const selectableItems = document.querySelector(".selectable-items");
 const followersItem = selectableItems.querySelector('[name="followers"]');
 const followingItem = selectableItems.querySelector('[name="following"]');
 
-const modal = document.querySelector(".modal");
+let modalClickEnabled = true;
+
 followersLink.addEventListener("click", () => {
   modal.classList.add("show");
+  modalClickEnabled = false;
+  setTimeout(() => {
+    modalClickEnabled = true;
+  }, 300);
   followersItem.click();
 });
 
 followingLink.addEventListener("click", () => {
   modal.classList.add("show");
+  modalClickEnabled = false;
+  setTimeout(() => {
+    modalClickEnabled = true;
+  }, 300);
   followingItem.click();
 });
 
 closeButton.addEventListener("click", () => {
-    modal.classList.remove("show");
+  modal.classList.remove("show");
 });
 
+modal.addEventListener("click", () => {
+  if (event.target === modal && modalClickEnabled) {
+    modal.classList.remove("show");
+  }
+});
 
 followersItem.addEventListener("click", () =>
   toggleFollowersFollowing(followersItem, followingItem, apiUrls.followers)
