@@ -2,28 +2,33 @@ const apiUrls = {
   followers: `/api/followers/${location.pathname.split("/")[2]}`,
   followings: `/api/following/${location.pathname.split("/")[2]}`,
   follow: `/api/follow`,
-  unfollow: `/api/unfollow`
+  unfollow: `/api/unfollow`,
 };
 
 const selectableItems = document.querySelector(".selectable-items");
 const modal = document.querySelector(".modal");
 
-let followersItem, followingItem
+let followersItem, followingItem;
 
 let modalClickEnabled = true;
 
 window.addEventListener("click", () => {
-
-  if (event.target.closest(".followers") && event.target.closest(".follows-followers")) {
+  if (
+    event.target.closest(".followers") &&
+    event.target.closest(".follows-followers")
+  ) {
     modal.classList.add("show");
     modalClickEnabled = false;
     setTimeout(() => {
       modalClickEnabled = true;
     }, 300);
     followersItem.click();
-  };
+  }
 
-  if (event.target.closest(".following") && event.target.closest(".follows-followers")) {
+  if (
+    event.target.closest(".following") &&
+    event.target.closest(".follows-followers")
+  ) {
     modal.classList.add("show");
     modalClickEnabled = false;
     setTimeout(() => {
@@ -45,7 +50,6 @@ window.addEventListener("click", () => {
   if (event.target.classList.contains("button")) {
     pushButton(event.target);
   }
-
 });
 
 if (selectableItems) {
@@ -59,9 +63,9 @@ if (selectableItems) {
   followingItem.addEventListener("click", () =>
     toggleFollowersFollowing(followingItem, followersItem, apiUrls.followings)
   );
-
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const toggleFollowersFollowing = (item1, item2, apiEndpoint) => {
   if (!item1.classList.contains("selected")) {
     item1.classList.add("selected");
@@ -95,10 +99,12 @@ const toggleFollowersFollowing = (item1, item2, apiEndpoint) => {
           const followButton = document.createElement("div");
           followButton.className = "follows-followers-list-button";
           const followButtonInner = document.createElement("div");
-          followButtonInner.className =
-            apiEndpoint.includes("followers") ? "follow button" : "following button";
-          followButtonInner.textContent =
-            apiEndpoint.includes("followers") ? "Follow" : "Following";
+          followButtonInner.className = apiEndpoint.includes("followers")
+            ? "follow button"
+            : "following button";
+          followButtonInner.textContent = apiEndpoint.includes("followers")
+            ? "Follow"
+            : "Following";
           followButtonInner.setAttribute("data-user-id", user.userID);
           followButton.appendChild(followButtonInner);
           div.appendChild(followButton);
@@ -109,7 +115,8 @@ const toggleFollowersFollowing = (item1, item2, apiEndpoint) => {
   }
 };
 
-const pushButton = (button) => {
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+const pushButton = button => {
   const userID = button.getAttribute("data-user-id");
   let apiEndpoint, removeClass, addClass;
 
@@ -128,7 +135,7 @@ const pushButton = (button) => {
   button.classList.add(addClass);
 
   fetch(apiEndpoint, {
-    method: "POST"
+    method: "POST",
   })
     .then(response => response.json())
     .then(data => {
@@ -139,10 +146,10 @@ const pushButton = (button) => {
         alert("エラーが発生しました。もう一度お試しください。");
       }
     })
-    .catch(error => {
+    .catch(() => {
       // エラーが発生した場合は、元に戻す
       button.classList.remove(addClass);
       button.classList.add(removeClass);
       alert("エラーが発生しました。もう一度お試しください。");
     });
-}
+};
