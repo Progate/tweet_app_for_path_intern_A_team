@@ -87,91 +87,63 @@ body {
   clear: both;
 }
 
-.follow-button {
+.button {
   padding-left: 32px;
   padding-right: 32px;
   padding-top: 8px;
   padding-bottom: 8px;
+  border-radius: 2px;
+  justify-content: center;
+  align-items: flex-start;
+  display: inline-flex;
+  text-align: center;
+  font-size: 16px;
+  font-family: Arial;
+  font-weight: 400;
+  letter-spacing: 2px;
+  word-wrap: break-word;
+  line-height: normal;
+  cursor: pointer;
+  user-select: none;
+}
+
+.button.follow {
+  padding-top: 8.50px;
+  padding-bottom: 8.50px;
   background: #3ECDC6;
-  border-radius: 2px;
-  justify-content: center;
-  align-items: flex-start;
-  display: inline-flex;
-  text-align: center;
   color: white;
-  font-size: 16px;
-  font-family: Arial;
-  font-weight: 400;
-  letter-spacing: 2px;
-  word-wrap: break-word;
-  line-height: normal;
-  cursor: pointer;
 }
 
-.following-button {
-  padding-left: 32px;
-  padding-right: 32px;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  border-radius: 2px;
+.button.follow::before {
+  content: 'Follow';
+}
+
+.button.following {
   border: 0.50px #3ECDC6 solid;
-  justify-content: center;
-  align-items: flex-start;
-  display: inline-flex;
-  text-align: center;
   color: #3ECDC6;
-  font-size: 16px;
-  font-family: Arial;
-  font-weight: 400;
-  letter-spacing: 2px;
-  word-wrap: break-word;
-  line-height: normal;
-  cursor: pointer;
 }
 
-.unfollow-button {
-  width: 148px;
-  padding-left: 32px;
-  padding-right: 32px;
-  padding-top: 8px;
-  padding-bottom: 8px;
+.button.following::before {
+  content: 'Following';
+}
+
+.button.following:hover {
   background: rgba(231, 82, 82, 0.10);
-  border-radius: 2px;
   border: 0.50px #E75252 solid;
-  justify-content: center;
-  align-items: flex-start;
-  display: inline-flex;
-  text-align: center;
   color: #E75252;
-  font-size: 16px;
-  font-family: Arial;
-  font-weight: 400;
-  letter-spacing: 2px;
-  word-wrap: break-word;
-  line-height: normal;
-  cursor: pointer;
 }
 
-.cancel-button {
-  width: 148px;
-  padding-left: 32px;
-  padding-right: 32px;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  border-radius: 2px;
+.button.following:hover::before {
+  content: 'Unfollow';
+}
+
+.button.cancel {
   border: 0.50px #0B0F15 solid;
-  justify-content: center;
-  align-items: flex-start;
-  display: inline-flex;
-  text-align: center;
   color: #0B0F15;
-  font-size: 16px;
-  font-family: Arial;
-  font-weight: 400;
-  letter-spacing: 2px;
-  word-wrap: break-word;
-  line-height: normal;
-  cursor: pointer;
+}
+
+.button.cancel::before {
+  content: 'Cancel';
 }
 
 .modal {
@@ -761,39 +733,42 @@ input[type="checkbox"] {
   color: #afb6bf;
 }
 
-.Follow {
+.follows-followers {
   justify-content: flex-start;
   align-items: center;
   gap: 16px;
   display: inline-flex;
   cursor: pointer;
+  user-select: none;
 }
 
-.Follow a{
+.follows-followers a{
   text-decoration: none;
 }
-.Followers {
+
+.follows-followers .followers {
   justify-content: flex-start;
   align-items: flex-start;
   gap: 8px;
   display: flex;
   cursor: pointer;
+  user-select: none;
 }
 
-.Vector1 {
+.follows-followers .vector1 {
   width: 0px;
   align-self: stretch;
   border: 0.25px #9E9E9E solid
 }
 
-.Following {
+.follows-followers .following {
   justify-content: flex-start;
   align-items: flex-start;
   gap: 8px;
   display: flex
 }
 
-.LinkKenTheNinja-num {
+.follows-followers .link-ken-the-ninja-num {
   color: #212121;
   font-size: 14px;
   font-family: 'Avenir Next', 'Hiragino Sans', sans-serif;
@@ -803,7 +778,7 @@ input[type="checkbox"] {
   word-wrap: break-word
 }
 
-.LinkKenTheNinja {
+.follows-followers .link-ken-the-ninja {
   color: #212121;
   font-size: 14px;
   font-family: 'Avenir Next', 'Hiragino Sans', sans-serif;
@@ -813,7 +788,7 @@ input[type="checkbox"] {
   word-wrap: break-word
 }
 
-.follo-follower-list {
+.follows-followers-list {
   top: 150px;
   position: absolute;
   flex-direction: column;
@@ -823,7 +798,7 @@ input[type="checkbox"] {
   width: 40%;
 }
 
-.follo-follower-list-header {
+.follows-followers-list .follows-followers-list-header {
   align-self: stretch;
   height: 57.80px;
   padding-left: 16px;
@@ -840,26 +815,6 @@ input[type="checkbox"] {
   justify-content: flex-start;
   align-items: flex-start;
   display: flex;
-}
-
-.selectable-item-selected {
-  padding-top: 15px;
-  padding-bottom: 18.80px;
-  padding-left: 30px;
-  padding-right: 30.76px;
-  border-bottom: 1px #3ECDC6 solid;
-  justify-content: center;
-  align-items: flex-start;
-  display: flex;
-  text-align: center;
-  color: #57575F;
-  font-size: 14px;
-  font-family: "Avenir Next";
-  font-weight: 400;
-  line-height: 23.80px;
-  letter-spacing: 1px;
-  word-wrap: break-word;
-  cursor: pointer;
 }
 
 .selectable-item {
@@ -879,9 +834,15 @@ input[type="checkbox"] {
   letter-spacing: 1px;
   word-wrap: break-word;
   cursor: pointer;
+  user-select: none;
 }
 
-.follo-follower-list-button {
+.selectable-item.selected {
+  border-bottom: 1px #3ECDC6 solid;
+  color: #57575F;
+}
+
+.follows-followers-list-button {
   padding-left: 25px;
   display: table-cell;
   vertical-align: middle;
