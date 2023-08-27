@@ -11,7 +11,7 @@ import {authRouter} from "@/routes/auth";
 import {postRouter} from "@/routes/post";
 import {likeRouter} from "@/routes/like";
 import {retweetRouter} from "@/routes/retweet";
-import {followRouter} from "@/routes/follows";
+import {followRouter} from "@/routes/follow";
 import {dialogMessageMiddleware} from "@/middlewares/dialog_message";
 import {currentUserMiddleware} from "@/middlewares/current_user";
 import {authenticationMiddleware} from "@/middlewares/authentication";
