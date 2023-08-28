@@ -4,20 +4,26 @@ import {PrismaClient} from "@prisma/client";
 const prisma = new PrismaClient();
 export const followRouter = express.Router();
 
-followRouter.post("/", async (req, res) => {
-  // const userId = req.params.userId;
-  // const followerId = req.session.userId;
+followRouter.post("/:userId", async (req, res) => {
+  const {userId} = req.params;
+  const currentUserId = req.authentication?.currentUserId;
 
-  // if (userId === followerId) {
-  //   return res.status(400).send("You can't follow yourself.");
-  // }
+  if (currentUserId === undefined) {
+    // `ensureAuthUser` enforces `currentUserId` is not undefined.
+    // This must not happen.
+    return res.status(400).send("Invalid error: currentUserId is undefined.");
+  }
 
-  // await prisma.follow.create({
-  //   data: {
-  //     followerId: followerId,
-  //     followingId: userId,
-  //   },
-  // });
+  if (userId === String(currentUserId)) {
+    return res.status(400).send("You can't follow yourself.");
+  }
+
+  await prisma.follow.create({
+    data: {
+      followingId: currentUserId,
+      followedId: Number(userId),
+    },
+  });
 
   res.send("Followed successfully");
 });
