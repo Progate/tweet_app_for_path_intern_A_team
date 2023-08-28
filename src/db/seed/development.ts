@@ -198,7 +198,47 @@ const main = async (): Promise<void> => {
     {
       followingId: 1,
       followedId: 2,
-      createdAt: new Date("2021-06-23 03:00:34.725"),
+      createdAt: new Date("2021-08-27 03:00:34.725"),
+    },
+    {
+      followingId: 1,
+      followedId: 3,
+      createdAt: new Date("2021-08-27 03:00:34.725"),
+    },
+    {
+      followingId: 1,
+      followedId: 5,
+      createdAt: new Date("2021-08-27 03:00:34.725"),
+    },
+    {
+      followingId: 2,
+      followedId: 1,
+      createdAt: new Date("2021-08-27 03:00:34.725"),
+    },
+    {
+      followingId: 2,
+      followedId: 4,
+      createdAt: new Date("2021-08-27 03:00:34.725"),
+    },
+    {
+      followingId: 2,
+      followedId: 5,
+      createdAt: new Date("2021-08-27 03:00:34.725"),
+    },
+    {
+      followingId: 3,
+      followedId: 4,
+      createdAt: new Date("2021-08-27 03:00:34.725"),
+    },
+    {
+      followingId: 3,
+      followedId: 5,
+      createdAt: new Date("2021-08-27 03:00:34.725"),
+    },
+    {
+      followingId: 5,
+      followedId: 1,
+      createdAt: new Date("2021-08-27 03:00:34.725"),
     },
   ]);
 };
