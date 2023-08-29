@@ -36,3 +36,15 @@ export const insertLikes = async (
     `successfully inserted records of ${createMany.count} to likes table`
   );
 };
+
+export const insertFollows = async (
+  data: Prisma.Enumerable<Prisma.FollowCreateManyInput>
+): Promise<void> => {
+  const createMany = await prisma.follow.createMany({
+    data,
+    skipDuplicates: true,
+  });
+  console.log(
+    `successfully inserted records of ${createMany.count} to follows table`
+  );
+};
