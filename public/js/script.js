@@ -1,8 +1,8 @@
 const apiUrls = {
-  followers: `/api/followers/${location.pathname.split("/")[2]}`,
-  followings: `/api/following/${location.pathname.split("/")[2]}`,
-  follow: `/api/follow`,
-  unfollow: `/api/unfollow`,
+  followers: `/users/${location.pathname.split("/")[2]}/followers`,
+  followings: `/users/${location.pathname.split("/")[2]}/followings`,
+  follow: `/follow`,
+  unfollow: `/follow`,
 };
 
 const selectableItems = document.querySelector(".selectable-items");
@@ -115,14 +115,16 @@ const toggleFollowersFollowing = (item1, item2, apiEndpoint) => {
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const pushButton = button => {
   const userID = button.getAttribute("data-user-id");
-  let apiEndpoint, removeClass, addClass;
+  let apiEndpoint, apiMethod, removeClass, addClass;
 
   if (button.classList.contains("follow")) {
     apiEndpoint = `${apiUrls.follow}/${userID}`;
+    apiMethod = "POST";
     removeClass = "follow";
     addClass = "following";
   } else if (button.classList.contains("following")) {
     apiEndpoint = `${apiUrls.unfollow}/${userID}`;
+    apiMethod = "DELETE";
     removeClass = "following";
     addClass = "follow";
   }
@@ -132,7 +134,7 @@ const pushButton = button => {
   button.classList.add(addClass);
 
   fetch(apiEndpoint, {
-    method: "POST",
+    method: apiMethod,
   })
     .then(response => response.json())
     .then(data => {
