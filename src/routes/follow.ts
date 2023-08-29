@@ -93,10 +93,12 @@ followRouter.delete("/:userId", async (req, res) => {
 
   await prisma.follow.delete({
     where: {
+      /* eslint-disable camelcase */
       followingId_followedId: {
         followingId: currentUserId,
         followedId: Number(userId),
       },
+      /* eslint-enable camelcase */
     },
   });
 
