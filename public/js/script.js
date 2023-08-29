@@ -1,11 +1,14 @@
 const apiUrls = {
   followers: `/users/${location.pathname.split("/")[2]}/followers`,
   followings: `/users/${location.pathname.split("/")[2]}/followings`,
+  followersYouFollow: `/users/${
+    location.pathname.split("/")[2]
+  }/followers_you_follow`,
   follow: `/follow`,
   unfollow: `/follow`,
 };
 
-const selectableItems = document.querySelector(".selectable-items");
+const selectableItems = document.querySelectorAll(".selectable-item");
 const modal = document.querySelector(".modal");
 
 let followersItem, followingItem;
@@ -53,24 +56,49 @@ window.addEventListener("click", () => {
 });
 
 if (selectableItems) {
-  followersItem = selectableItems.querySelector('[name="followers"]');
-  followingItem = selectableItems.querySelector('[name="following"]');
-
-  followersItem.addEventListener("click", () =>
-    toggleFollowersFollowing(followersItem, followingItem, apiUrls.followers)
-  );
-
-  followingItem.addEventListener("click", () =>
-    toggleFollowersFollowing(followingItem, followersItem, apiUrls.followings)
-  );
+  selectableItems.forEach(item => {
+    if (item.getAttribute("name") === "followers") {
+      followersItem = item;
+    } else if (item.getAttribute("name") === "following") {
+      followingItem = item;
+    }
+    item.addEventListener("click", () => {
+      toggleFollowersFollowing(item);
+    });
+  });
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const toggleFollowersFollowing = (item1, item2, apiEndpoint) => {
-  if (!item1.classList.contains("selected")) {
-    item1.classList.add("selected");
-    item2.classList.remove("selected");
+const toggleFollowersFollowing = item => {
+  let apiEndpoint;
 
+  if (!item.classList.contains("selected")) {
+    document.querySelectorAll(".selected").forEach(selectedItem => {
+      selectedItem.classList.remove("selected");
+    });
+    item.classList.add("selected");
+  }
+
+  if (item.getAttribute("name") === "followers") {
+    apiEndpoint = apiUrls.followers;
+  } else if (item.getAttribute("name") === "following") {
+    apiEndpoint = apiUrls.followings;
+  } else if (item.getAttribute("name") === "followers_you_follow") {
+    apiEndpoint = apiUrls.followersYouFollow;
+  } else {
+    apiEndpoint = "";
+  }
+
+  const followsFollowersList = document.querySelector(
+    ".follows-followers-list"
+  );
+  const usersIndexItems =
+    followsFollowersList.querySelectorAll(".users-index-item");
+  usersIndexItems.forEach(item => {
+    followsFollowersList.removeChild(item);
+  });
+
+  if (apiEndpoint) {
     fetch(apiEndpoint)
       .then(response => response.json())
       .then(data => {
@@ -95,18 +123,17 @@ const toggleFollowersFollowing = (item1, item2, apiEndpoint) => {
           userRight.appendChild(userLink);
           div.appendChild(userRight);
 
-          //ここはユーザーのフォロー状況に合わせて変える
           const followButton = document.createElement("div");
           followButton.className = "follows-followers-list-button";
           const followButtonInner = document.createElement("div");
-          followButtonInner.className = apiEndpoint.includes("followers")
-            ? "follow button"
-            : "following button";
+          followButtonInner.className = user.follow
+            ? "following button"
+            : "follow button";
           followButtonInner.setAttribute("data-user-id", user.id);
           followButton.appendChild(followButtonInner);
           div.appendChild(followButton);
 
-          document.querySelector(".follows-followers-list").appendChild(div);
+          followsFollowersList.appendChild(div);
         });
       });
   }
