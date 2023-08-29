@@ -188,11 +188,11 @@ userRouter.patch(
   }
 );
 
-import { databaseManager } from "@/db/index";
+import {databaseManager} from "@/db/index";
 
 userRouter.get("/:userId/followings", ensureAuthUser, async (req, res) => {
   const prisma = databaseManager.getInstance();
-  const { userId } = req.params;
+  const {userId} = req.params;
   const userNumber = Number(userId);
   const followedUsers = await prisma.follow.findMany({
     where: {
@@ -222,7 +222,7 @@ userRouter.get("/:userId/followings", ensureAuthUser, async (req, res) => {
 
 userRouter.get("/:userId/followers", ensureAuthUser, async (req, res) => {
   const prisma = databaseManager.getInstance();
-  const { userId } = req.params;
+  const {userId} = req.params;
   const userNumber = Number(userId);
   const followingUsers = await prisma.follow.findMany({
     where: {
