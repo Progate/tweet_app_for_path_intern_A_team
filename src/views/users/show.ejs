@@ -30,7 +30,7 @@
       <% if(currentUser.id===user.id) { %>
         <a href="<%= `/users/${user.id}/edit` %>">Edit</a>
       <% } else { %>
-        <div class="button follow"></div>
+        <div class="button follow" data-user-id="<%= user.id %>"></div>
       <% } %>
 
     </div>
@@ -70,7 +70,7 @@
         <a href="/users/3" data-test="user-item-link">test_test</a>
       </div>
       <div class="follows-followers-list-button">
-        <div class="button follow"></div>
+        <div class="button follow" data-user-id="3"></div>
       </div>
     </div>
 
