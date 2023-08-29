@@ -1,7 +1,7 @@
-import express, { RequestHandler } from "express";
-import { join } from "node:path";
+import express, {RequestHandler} from "express";
+import {join} from "node:path";
 import multer from "multer";
-import { nanoid } from "nanoid";
+import {nanoid} from "nanoid";
 import {
   getAllUsers,
   createUser,
@@ -17,9 +17,9 @@ import {
   ensureAuthUser,
   forbidAuthUser,
 } from "@/middlewares/authentication";
-import { ensureCorrectUser } from "@/middlewares/current_user";
-import { body, validationResult } from "express-validator";
-import { HashPassword } from "@/lib/hash_password";
+import {ensureCorrectUser} from "@/middlewares/current_user";
+import {body, validationResult} from "express-validator";
+import {HashPassword} from "@/lib/hash_password";
 
 export const userRouter = express.Router();
 
@@ -40,7 +40,7 @@ userRouter.post(
   body("password", "Password can't be blank").notEmpty(),
   body("email").custom(isUniqueEmail),
   async (req, res) => {
-    const { name, email, password } = req.body;
+    const {name, email, password} = req.body;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.render("users/new", {
@@ -53,7 +53,7 @@ userRouter.post(
       });
     }
     const hashPassword = await new HashPassword().generate(password);
-    const user = await createUser({ name, email, password: hashPassword });
+    const user = await createUser({name, email, password: hashPassword});
     req.authentication?.login(user);
     req.dialogMessage?.setMessage("You have signed up successfully");
     res.redirect(`/users/${user.id}`);
@@ -62,11 +62,11 @@ userRouter.post(
 
 /** A page to show user details */
 userRouter.get("/:userId", ensureAuthUser, async (req, res, next) => {
-  const { userId } = req.params;
+  const {userId} = req.params;
   const userTimeline = await getUserPostTimeline(Number(userId));
   if (!userTimeline)
     return next(new Error("Invalid error: The user is undefined."));
-  const { user, timeline } = userTimeline;
+  const {user, timeline} = userTimeline;
   res.render("users/show", {
     user,
     timeline,
@@ -75,11 +75,11 @@ userRouter.get("/:userId", ensureAuthUser, async (req, res, next) => {
 
 /** A page to list all tweets liked by a user */
 userRouter.get("/:userId/likes", ensureAuthUser, async (req, res, next) => {
-  const { userId } = req.params;
+  const {userId} = req.params;
   const userTimeline = await getUserLikesTimeline(Number(userId));
   if (!userTimeline)
     return next(new Error("Invalid error: The user is undefined."));
-  const { user, timeline } = userTimeline;
+  const {user, timeline} = userTimeline;
   res.render("users/likes", {
     user,
     timeline,
@@ -92,7 +92,7 @@ userRouter.get(
   ensureAuthUser,
   ensureCorrectUser,
   async (req, res) => {
-    const { userId } = req.params;
+    const {userId} = req.params;
     const user = await getUser(Number(userId));
     res.render("users/edit", {
       user,
@@ -159,8 +159,8 @@ userRouter.patch(
   body("name", "Name can't be blank").notEmpty(),
   body("email", "Email can't be blank").notEmpty(),
   async (req, res) => {
-    const { userId } = req.params;
-    const { name, email } = req.body;
+    const {userId} = req.params;
+    const {name, email} = req.body;
 
     const errors = validationResult(req);
     if (!errors.isEmpty() || req.uploadError) {
@@ -187,64 +187,64 @@ userRouter.patch(
   }
 );
 
-import { databaseManager } from "@/db/index";
+import {databaseManager} from "@/db/index";
 
 userRouter.get("/:userId/followings", ensureAuthUser, async (req, res) => {
   const prisma = databaseManager.getInstance();
-  const { userId } = req.params;
+  const {userId} = req.params;
   const userNumber = Number(userId);
   const followedUsers = await prisma.follow.findMany({
     where: {
       followingId: userNumber,
     },
     select: {
-      followedId: true
+      followedId: true,
     },
   });
   const followedUserIds = followedUsers.map(function (value) {
-    return value.followedId
+    return value.followedId;
   });
   const users = await prisma.user.findMany({
     where: {
       id: {
-        in: followedUserIds
-      }
+        in: followedUserIds,
+      },
     },
     select: {
       id: true,
       name: true,
-      imageName: true
+      imageName: true,
     },
   });
   res.json(users);
-})
+});
 
 userRouter.get("/:userId/followers", ensureAuthUser, async (req, res) => {
   const prisma = databaseManager.getInstance();
-  const { userId } = req.params;
+  const {userId} = req.params;
   const userNumber = Number(userId);
   const followingUsers = await prisma.follow.findMany({
     where: {
       followedId: userNumber,
     },
     select: {
-      followingId: true
+      followingId: true,
     },
   });
   const followingUserIds = followingUsers.map(function (value) {
-    return value.followingId
+    return value.followingId;
   });
   const users = await prisma.user.findMany({
     where: {
       id: {
-        in: followingUserIds
-      }
+        in: followingUserIds,
+      },
     },
     select: {
       id: true,
       name: true,
-      imageName: true
+      imageName: true,
     },
   });
   res.json(users);
-})
+});
