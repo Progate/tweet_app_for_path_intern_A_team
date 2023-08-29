@@ -55,12 +55,17 @@ window.addEventListener("click", () => {
 if (selectableItems) {
   followersItem = selectableItems.querySelector('[name="followers"]');
   followingItem = selectableItems.querySelector('[name="following"]');
+  followersYouFollowItem = selectableItems.querySelector('[name="followers_you_follow"]');
 
   followersItem.addEventListener("click", () =>
     toggleFollowersFollowing(followersItem, followingItem, apiUrls.followers)
   );
 
   followingItem.addEventListener("click", () =>
+    toggleFollowersFollowing(followingItem, followersItem, apiUrls.followings)
+  );
+
+  followersYouFollowItem.addEventListener("click", () =>
     toggleFollowersFollowing(followingItem, followersItem, apiUrls.followings)
   );
 }
@@ -82,16 +87,16 @@ const toggleFollowersFollowing = (item1, item2, apiEndpoint) => {
           userLeft.className = "user-left";
           const userIcon = document.createElement("img");
           userIcon.className = "user-left";
-          userIcon.src = user.iconURL;
+          userIcon.src = user.imageName;
           userLeft.appendChild(userIcon);
           div.appendChild(userLeft);
 
           const userRight = document.createElement("div");
           userRight.className = "user-right";
           const userLink = document.createElement("a");
-          userLink.href = "/users/" + user.userID;
+          userLink.href = "/users/" + user.id;
           userLink.setAttribute("data-test", "user-item-link");
-          userLink.textContent = user.userName;
+          userLink.textContent = user.name;
           userRight.appendChild(userLink);
           div.appendChild(userRight);
 
@@ -102,7 +107,7 @@ const toggleFollowersFollowing = (item1, item2, apiEndpoint) => {
           followButtonInner.className = apiEndpoint.includes("followers")
             ? "follow button"
             : "following button";
-          followButtonInner.setAttribute("data-user-id", user.userID);
+          followButtonInner.setAttribute("data-user-id", user.id);
           followButton.appendChild(followButtonInner);
           div.appendChild(followButton);
 
