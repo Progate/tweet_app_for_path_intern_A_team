@@ -1,7 +1,9 @@
 const apiUrls = {
   followers: `/users/${location.pathname.split("/")[2]}/followers`,
   followings: `/users/${location.pathname.split("/")[2]}/followings`,
-  followersYouFollow: `/users/${location.pathname.split("/")[2]}/followers_you_follow`,
+  followersYouFollow: `/users/${
+    location.pathname.split("/")[2]
+  }/followers_you_follow`,
   follow: `/follow`,
   unfollow: `/follow`,
 };
@@ -54,7 +56,6 @@ window.addEventListener("click", () => {
 });
 
 if (selectableItems) {
-
   selectableItems.forEach(item => {
     if (item.getAttribute("name") === "followers") {
       followersItem = item;
@@ -65,11 +66,12 @@ if (selectableItems) {
       toggleFollowersFollowing(item);
     });
   });
-
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const toggleFollowersFollowing = (item) => {
+const toggleFollowersFollowing = item => {
+  let apiEndpoint;
+
   if (!item.classList.contains("selected")) {
     document.querySelectorAll(".selected").forEach(selectedItem => {
       selectedItem.classList.remove("selected");
@@ -84,11 +86,14 @@ const toggleFollowersFollowing = (item) => {
   } else if (item.getAttribute("name") === "followers_you_follow") {
     apiEndpoint = apiUrls.followersYouFollow;
   } else {
-    apiEndpoint = ""
+    apiEndpoint = "";
   }
 
-  const followsFollowersList = document.querySelector(".follows-followers-list");
-  const usersIndexItems = followsFollowersList.querySelectorAll(".users-index-item");
+  const followsFollowersList = document.querySelector(
+    ".follows-followers-list"
+  );
+  const usersIndexItems =
+    followsFollowersList.querySelectorAll(".users-index-item");
   usersIndexItems.forEach(item => {
     followsFollowersList.removeChild(item);
   });
@@ -97,8 +102,6 @@ const toggleFollowersFollowing = (item) => {
     fetch(apiEndpoint)
       .then(response => response.json())
       .then(data => {
-
-
         data.forEach(user => {
           const div = document.createElement("div");
           div.className = "users-index-item";
@@ -123,7 +126,9 @@ const toggleFollowersFollowing = (item) => {
           const followButton = document.createElement("div");
           followButton.className = "follows-followers-list-button";
           const followButtonInner = document.createElement("div");
-          followButtonInner.className = user.follow ? "following button" : "follow button";
+          followButtonInner.className = user.follow
+            ? "following button"
+            : "follow button";
           followButtonInner.setAttribute("data-user-id", user.id);
           followButton.appendChild(followButtonInner);
           div.appendChild(followButton);
@@ -132,7 +137,6 @@ const toggleFollowersFollowing = (item) => {
         });
       });
   }
-
 };
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
