@@ -73,62 +73,63 @@ const toggleFollowersFollowing = (item) => {
     document.querySelectorAll(".selected").forEach(selectedItem => {
       selectedItem.classList.remove("selected");
     });
-
     item.classList.add("selected");
-
-    if (item.getAttribute("name") === "followers") {
-      apiEndpoint = apiUrls.followers;
-    } else if (item.getAttribute("name") === "following") {
-      apiEndpoint = apiUrls.followings;
-    } else {
-      apiEndpoint = ""
-    }
-
-    if (apiEndpoint) {
-      fetch(apiEndpoint)
-        .then(response => response.json())
-        .then(data => {
-          const followsFollowersList = document.querySelector(".follows-followers-list");
-            const usersIndexItems = followsFollowersList.querySelectorAll(".users-index-item");
-            usersIndexItems.forEach(item => {
-              followsFollowersList.removeChild(item);
-            });
-
-          data.forEach(user => {
-            const div = document.createElement("div");
-            div.className = "users-index-item";
-
-            const userLeft = document.createElement("div");
-            userLeft.className = "user-left";
-            const userIcon = document.createElement("img");
-            userIcon.className = "user-left";
-            userIcon.src = user.imageName;
-            userLeft.appendChild(userIcon);
-            div.appendChild(userLeft);
-
-            const userRight = document.createElement("div");
-            userRight.className = "user-right";
-            const userLink = document.createElement("a");
-            userLink.href = "/users/" + user.id;
-            userLink.setAttribute("data-test", "user-item-link");
-            userLink.textContent = user.name;
-            userRight.appendChild(userLink);
-            div.appendChild(userRight);
-
-            const followButton = document.createElement("div");
-            followButton.className = "follows-followers-list-button";
-            const followButtonInner = document.createElement("div");
-            followButtonInner.className = user.follow ? "following button" : "follow button";
-            followButtonInner.setAttribute("data-user-id", user.id);
-            followButton.appendChild(followButtonInner);
-            div.appendChild(followButton);
-
-            followsFollowersList.appendChild(div);
-          });
-        });
-    }
-
   }
+
+  if (item.getAttribute("name") === "followers") {
+    apiEndpoint = apiUrls.followers;
+  } else if (item.getAttribute("name") === "following") {
+    apiEndpoint = apiUrls.followings;
+  } else {
+    apiEndpoint = ""
+  }
+
+  const followsFollowersList = document.querySelector(".follows-followers-list");
+  const usersIndexItems = followsFollowersList.querySelectorAll(".users-index-item");
+  usersIndexItems.forEach(item => {
+    followsFollowersList.removeChild(item);
+  });
+
+  if (apiEndpoint) {
+    fetch(apiEndpoint)
+      .then(response => response.json())
+      .then(data => {
+
+
+        data.forEach(user => {
+          const div = document.createElement("div");
+          div.className = "users-index-item";
+
+          const userLeft = document.createElement("div");
+          userLeft.className = "user-left";
+          const userIcon = document.createElement("img");
+          userIcon.className = "user-left";
+          userIcon.src = user.imageName;
+          userLeft.appendChild(userIcon);
+          div.appendChild(userLeft);
+
+          const userRight = document.createElement("div");
+          userRight.className = "user-right";
+          const userLink = document.createElement("a");
+          userLink.href = "/users/" + user.id;
+          userLink.setAttribute("data-test", "user-item-link");
+          userLink.textContent = user.name;
+          userRight.appendChild(userLink);
+          div.appendChild(userRight);
+
+          const followButton = document.createElement("div");
+          followButton.className = "follows-followers-list-button";
+          const followButtonInner = document.createElement("div");
+          followButtonInner.className = user.follow ? "following button" : "follow button";
+          followButtonInner.setAttribute("data-user-id", user.id);
+          followButton.appendChild(followButtonInner);
+          div.appendChild(followButton);
+
+          followsFollowersList.appendChild(div);
+        });
+      });
+  }
+
 };
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
