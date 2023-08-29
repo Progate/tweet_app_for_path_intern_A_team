@@ -1,7 +1,7 @@
 const apiUrls = {
-  followers: `/api/followers/${location.pathname.split("/")[2]}`,
-  followings: `/api/following/${location.pathname.split("/")[2]}`,
-  follow: `/api/follow`,
+  followers: `/users/${location.pathname.split("/")[2]}/followers`,
+  followings: `/users/${location.pathname.split("/")[2]}/followings`,
+  follow: `/follow`,
   unfollow: `/api/unfollow`,
 };
 
@@ -82,16 +82,16 @@ const toggleFollowersFollowing = (item1, item2, apiEndpoint) => {
           userLeft.className = "user-left";
           const userIcon = document.createElement("img");
           userIcon.className = "user-left";
-          userIcon.src = user.iconURL;
+          userIcon.src = user.imageName;
           userLeft.appendChild(userIcon);
           div.appendChild(userLeft);
 
           const userRight = document.createElement("div");
           userRight.className = "user-right";
           const userLink = document.createElement("a");
-          userLink.href = "/users/" + user.userID;
+          userLink.href = "/users/" + user.id;
           userLink.setAttribute("data-test", "user-item-link");
-          userLink.textContent = user.userName;
+          userLink.textContent = user.name;
           userRight.appendChild(userLink);
           div.appendChild(userRight);
 
@@ -102,7 +102,7 @@ const toggleFollowersFollowing = (item1, item2, apiEndpoint) => {
           followButtonInner.className = apiEndpoint.includes("followers")
             ? "follow button"
             : "following button";
-          followButtonInner.setAttribute("data-user-id", user.userID);
+          followButtonInner.setAttribute("data-user-id", user.id);
           followButton.appendChild(followButtonInner);
           div.appendChild(followButton);
 
@@ -136,14 +136,17 @@ const pushButton = button => {
   })
     .then(response => response.json())
     .then(data => {
+      console.log(data);
       if (!data.success) {
+        console.log("bbbbb");
         // エラーが発生した場合は、元に戻す
         button.classList.remove(addClass);
         button.classList.add(removeClass);
         alert("エラーが発生しました。もう一度お試しください。");
       }
     })
-    .catch(() => {
+    .catch((e) => {
+      console.log(e);
       // エラーが発生した場合は、元に戻す
       button.classList.remove(addClass);
       button.classList.add(removeClass);

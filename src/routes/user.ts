@@ -20,6 +20,7 @@ import {
 import {ensureCorrectUser} from "@/middlewares/current_user";
 import {body, validationResult} from "express-validator";
 import {HashPassword} from "@/lib/hash_password";
+import { databaseManager } from "@/db";
 
 export const userRouter = express.Router();
 
@@ -186,3 +187,37 @@ userRouter.patch(
     res.redirect(`/users/${userId}`);
   }
 );
+
+userRouter.get("/:userId/followings", ensureAuthUser, async (req, res) => {
+  const prisma = databaseManager.getInstance();
+  const {userId} = req.params;
+  const userNumber = Number(userId);
+  const followedUsers = await prisma.follow.findMany({
+    where: {
+      followingId: userNumber,
+    },
+    select: {
+      followedId: true
+    },
+  });
+  const followedUserIds = followedUsers.map(function (value) {
+    return value.followedId
+  });
+  const users = await prisma.user.findMany({
+    where: {
+      id: {
+        in: followedUserIds
+      }
+    },
+    select: {
+      id: true,
+      name: true,
+      imageName: true
+    },
+  });
+  res.json(users);
+})
+
+userRouter.get("/:userId/followers", ensureAuthUser, async (req, res) => {
+  res.json([{userID: "2", userName: "bb", iconURL: "/image/users/3.jpg"}])
+})
