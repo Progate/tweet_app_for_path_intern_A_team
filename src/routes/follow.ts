@@ -4,6 +4,7 @@ import {getUser} from "@/models/user";
 import {databaseManager} from "@/db/index";
 
 export const followRouter = express.Router();
+const regex = /^[1-9][0-9]*$/;
 
 followRouter.post("/:userId", async (req, res) => {
   const {userId} = req.params;
@@ -27,7 +28,7 @@ followRouter.post("/:userId", async (req, res) => {
   }
   // userIdがnumberじゃない場合
   // 存在しないuserIdの場合
-  if (isNaN(userNumber)) {
+  if (!regex.test(userId)) {
     return res.json({
       success: "false",
       msg: "Invalid error: userId is not number.",
@@ -90,7 +91,7 @@ followRouter.delete("/:userId", async (req, res) => {
   }
   // userIdがnumberじゃない場合
   // 存在しないuserIdの場合
-  if (isNaN(userNumber)) {
+  if (!regex.test(userId)) {
     return res.json({
       success: "false",
       msg: "Invalid error: userId is not number.",
