@@ -186,3 +186,65 @@ userRouter.patch(
     res.redirect(`/users/${userId}`);
   }
 );
+
+import {databaseManager} from "@/db/index";
+
+userRouter.get("/:userId/followings", ensureAuthUser, async (req, res) => {
+  const prisma = databaseManager.getInstance();
+  const {userId} = req.params;
+  const userNumber = Number(userId);
+  const followedUsers = await prisma.follow.findMany({
+    where: {
+      followingId: userNumber,
+    },
+    select: {
+      followedId: true,
+    },
+  });
+  const followedUserIds = followedUsers.map(function (value) {
+    return value.followedId;
+  });
+  const users = await prisma.user.findMany({
+    where: {
+      id: {
+        in: followedUserIds,
+      },
+    },
+    select: {
+      id: true,
+      name: true,
+      imageName: true,
+    },
+  });
+  res.json(users);
+});
+
+userRouter.get("/:userId/followers", ensureAuthUser, async (req, res) => {
+  const prisma = databaseManager.getInstance();
+  const {userId} = req.params;
+  const userNumber = Number(userId);
+  const followingUsers = await prisma.follow.findMany({
+    where: {
+      followedId: userNumber,
+    },
+    select: {
+      followingId: true,
+    },
+  });
+  const followingUserIds = followingUsers.map(function (value) {
+    return value.followingId;
+  });
+  const users = await prisma.user.findMany({
+    where: {
+      id: {
+        in: followingUserIds,
+      },
+    },
+    select: {
+      id: true,
+      name: true,
+      imageName: true,
+    },
+  });
+  res.json(users);
+});
