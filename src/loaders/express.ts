@@ -12,6 +12,7 @@ import {postRouter} from "@/routes/post";
 import {likeRouter} from "@/routes/like";
 import {retweetRouter} from "@/routes/retweet";
 import {followingPostRouter} from "@/routes/following_posts";
+import {followRouter} from "@/routes/follow";
 import {dialogMessageMiddleware} from "@/middlewares/dialog_message";
 import {currentUserMiddleware} from "@/middlewares/current_user";
 import {authenticationMiddleware} from "@/middlewares/authentication";
@@ -98,6 +99,7 @@ const loadRouter = (app: Express): void => {
   app.use("/users", userRouter);
   app.use("/posts", postRouter, likeRouter, retweetRouter);
   app.use("/following-posts", followingPostRouter);
+  app.use("/follow", followRouter);
 };
 
 const loadSecureHeaders = (app: Express): void => {
