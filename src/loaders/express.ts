@@ -17,7 +17,6 @@ import {dialogMessageMiddleware} from "@/middlewares/dialog_message";
 import {currentUserMiddleware} from "@/middlewares/current_user";
 import {authenticationMiddleware} from "@/middlewares/authentication";
 
-
 export const loadMiddlewaresForTweetApp = (app: Express): void => {
   loadMethodOverride(app);
   loadSecureHeaders(app);
