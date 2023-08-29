@@ -13,22 +13,22 @@ followRouter.post("/:userId", async (req, res) => {
   if (currentUserId === undefined) {
     // `ensureAuthUser` enforces `currentUserId` is not undefined.
     // This must not happen.
-    return res.status(400).send("Invalid error: currentUserId is undefined.");
+    return res.json({success: "false", msg: "Invalid error: currentUserId is undefined."});
   }
 
   if (userId === String(currentUserId)) {
-    return res.status(400).send("Invalid error: You can't follow yourself.");
+    return res.json({success: "false", msg: "Invalid error: You can't follow yourself."});
   }
   // userIdがnumberじゃない場合
   // 存在しないuserIdの場合
   if (isNaN(userNumber)) {
-    return res.status(400).send("Invalid error: userId is not number.")
+    return res.json({success: "false", msg: "Invalid error: userId is not number."});
   }
 
   const user = await getUser(userNumber)
   
   if (user === null) {
-    return res.status(400).send("Invalid error: target user does not exist.")
+    return res.json({success: "false", msg: "Invalid error: target user does not exist."});
   }
   // 既にフォローしている場合
   const prisma = databaseManager.getInstance();
@@ -40,7 +40,7 @@ followRouter.post("/:userId", async (req, res) => {
   });
 
   if (follow !== null) {
-    return res.status(400).send("Invalid error: You have already followed target user.")
+    return res.json({success: "false", msg: "Invalid error: You have already followed target user."});
   }
 
   await prisma.follow.create({
@@ -50,7 +50,7 @@ followRouter.post("/:userId", async (req, res) => {
     },
   });
 
-  res.json({ success: "true" });
+  res.json({success: "true", msg: ""});
 });
 
 followRouter.delete("/:userId", async (req, res) => {
@@ -61,22 +61,22 @@ followRouter.delete("/:userId", async (req, res) => {
   if (currentUserId === undefined) {
     // `ensureAuthUser` enforces `currentUserId` is not undefined.
     // This must not happen.
-    return res.status(400).send("Invalid error: currentUserId is undefined.");
+    return res.json({success: "false", msg: "Invalid error: currentUserId is undefined."});
   }
 
   if (userId === String(currentUserId)) {
-    return res.status(400).send("Invalid error: You can't unfollow yourself.");
+    return res.json({success: "false", msg: "Invalid error: You can't unfollow yourself."});
   }
   // userIdがnumberじゃない場合
   // 存在しないuserIdの場合
   if (isNaN(userNumber)) {
-    return res.status(400).send("Invalid error: userId is not number.")
+    return res.json({success: "false", msg: "Invalid error: userId is not number."});
   }
 
   const user = await getUser(userNumber)
   
   if (user === null) {
-    return res.status(400).send("Invalid error: target user does not exist.")
+    return res.json({success: "false", msg: "Invalid error: target user does not exist."});
   }
   // フォローしていない場合
   const prisma = databaseManager.getInstance();
@@ -88,7 +88,7 @@ followRouter.delete("/:userId", async (req, res) => {
   });
 
   if (follow === null) {
-    return res.status(400).send("Invalid error: You haven't followed target user yet.")
+    return res.json({success: "false", msg: "Invalid error: You haven't followed target user yet."});
   }
 
   await prisma.follow.delete({
@@ -100,6 +100,6 @@ followRouter.delete("/:userId", async (req, res) => {
     },
   });
 
-  res.json({ success: "true" });
+  res.json({success: "true", msg: ""});
 });
 
