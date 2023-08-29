@@ -1,6 +1,7 @@
 const apiUrls = {
   followers: `/users/${location.pathname.split("/")[2]}/followers`,
   followings: `/users/${location.pathname.split("/")[2]}/followings`,
+  followersYouFollow: `/users/${location.pathname.split("/")[2]}/followers_you_follow`,
   follow: `/follow`,
   unfollow: `/follow`,
 };
@@ -80,6 +81,8 @@ const toggleFollowersFollowing = (item) => {
     apiEndpoint = apiUrls.followers;
   } else if (item.getAttribute("name") === "following") {
     apiEndpoint = apiUrls.followings;
+  } else if (item.getAttribute("name") === "followers_you_follow") {
+    apiEndpoint = apiUrls.followersYouFollow;
   } else {
     apiEndpoint = ""
   }
