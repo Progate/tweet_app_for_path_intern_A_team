@@ -20,6 +20,7 @@ import {
 import {ensureCorrectUser} from "@/middlewares/current_user";
 import {body, validationResult} from "express-validator";
 import {HashPassword} from "@/lib/hash_password";
+import {hasFollow} from "@/models/follow";
 
 export const userRouter = express.Router();
 
@@ -216,7 +217,11 @@ userRouter.get("/:userId/followings", ensureAuthUser, async (req, res) => {
       imageName: true,
     },
   });
-  res.json(users);
+  const usersWithHasFollow = users.map(user => {
+    return {...user, hasFollowed: true};
+  });
+  console.log(usersWithHasFollow);
+  res.json(usersWithHasFollow);
 });
 
 userRouter.get("/:userId/followers", ensureAuthUser, async (req, res) => {
@@ -246,5 +251,33 @@ userRouter.get("/:userId/followers", ensureAuthUser, async (req, res) => {
       imageName: true,
     },
   });
-  res.json(users);
+
+  const usersWithHasFollow = await Promise.all(
+    users.map(async user => {
+      return {
+        ...user,
+        hasFollowed: await hasFollow(userNumber, user.id),
+      };
+    })
+  );
+
+  // const postsWithUser = await Promise.all(
+  //   posts.map(async post => {
+  //     const user = await post.user();
+  //     return {
+  //       ...post,
+  //       user,
+  //     };
+  //   })
+  // );
+
+  /**
+   * {
+   *   id: string
+   *   name: string
+   *   imageName: string
+   *   hasFollow: boolean
+   * }
+   */
+  res.json(usersWithHasFollow);
 });
