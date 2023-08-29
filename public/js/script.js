@@ -88,14 +88,13 @@ const toggleFollowersFollowing = (item) => {
       fetch(apiEndpoint)
         .then(response => response.json())
         .then(data => {
-          data.forEach(user => {
-            const followsFollowersList = document.querySelector(".follows-followers-list");
+          const followsFollowersList = document.querySelector(".follows-followers-list");
             const usersIndexItems = followsFollowersList.querySelectorAll(".users-index-item");
             usersIndexItems.forEach(item => {
-              parentDiv.removeChild(item);
+              followsFollowersList.removeChild(item);
             });
 
-
+          data.forEach(user => {
             const div = document.createElement("div");
             div.className = "users-index-item";
 
