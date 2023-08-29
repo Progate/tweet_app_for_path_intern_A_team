@@ -29,9 +29,9 @@
       </div>
       <% if(currentUser.id===user.id) { %>
         <a href="<%= `/users/${user.id}/edit` %>">Edit</a>
-      <% } else { %>
-        <div class="button follow" data-user-id="<%= user.id %>"></div>
-      <% } %>
+        <% } else { %>
+          <div class="button follow" data-user-id="<%= user.id %>"></div>
+          <% } %>
 
     </div>
     <ul class="user-tabs">
@@ -57,23 +57,26 @@
         <div class="selectable-item" name="following">
           Following
         </div>
+        <div class="selectable-item" name="followers_you_follow">
+          知り合いのフォロワー
+        </div>
       </div>
       <div class="close-button">
       </div>
     </div>
-    <div class="follows-followers-list-items">
-      <div class="users-index-item">
-        <div class="user-left">
-          <img class="user-left" src="../image/users/default_user.jpg">
-        </div>
-        <div class="user-right">
-          <a href="/users/3" data-test="user-item-link">test_test</a>
-        </div>
-        <div class="follows-followers-list-button">
-          <div class="button follow" data-user-id="3"></div>
-        </div>
+
+    <div class="users-index-item">
+      <div class="user-left">
+        <img class="user-left" src="../image/users/default_user.jpg">
+      </div>
+      <div class="user-right">
+        <a href="/users/3" data-test="user-item-link">test_test</a>
+      </div>
+      <div class="follows-followers-list-button">
+        <div class="button follow" data-user-id="3"></div>
       </div>
     </div>
+
 
   </div>
 </div>

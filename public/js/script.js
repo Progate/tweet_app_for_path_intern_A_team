@@ -52,7 +52,7 @@ window.addEventListener("click", () => {
   }
 });
 
-if (selectableItems){
+if (selectableItems) {
 
   selectableItems.forEach(item => {
     if (item.getAttribute("name") === "followers") {
@@ -64,7 +64,7 @@ if (selectableItems){
       toggleFollowersFollowing(item);
     });
   });
-  
+
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -80,48 +80,55 @@ const toggleFollowersFollowing = (item) => {
       apiEndpoint = apiUrls.followers;
     } else if (item.getAttribute("name") === "following") {
       apiEndpoint = apiUrls.followings;
+    } else {
+      apiEndpoint = ""
     }
 
-    fetch(apiEndpoint)
-      .then(response => response.json())
-      .then(data => {
-        data.forEach(user => {
-          document.querySelector(".follows-followers-list-items").removeChild();
+    if (apiEndpoint) {
+      fetch(apiEndpoint)
+        .then(response => response.json())
+        .then(data => {
+          data.forEach(user => {
+            const followsFollowersList = document.querySelector(".follows-followers-list");
+            const usersIndexItems = followsFollowersList.querySelectorAll(".users-index-item");
+            usersIndexItems.forEach(item => {
+              parentDiv.removeChild(item);
+            });
 
-          const div = document.createElement("div");
-          div.className = "users-index-item";
 
-          const userLeft = document.createElement("div");
-          userLeft.className = "user-left";
-          const userIcon = document.createElement("img");
-          userIcon.className = "user-left";
-          userIcon.src = user.imageName;
-          userLeft.appendChild(userIcon);
-          div.appendChild(userLeft);
+            const div = document.createElement("div");
+            div.className = "users-index-item";
 
-          const userRight = document.createElement("div");
-          userRight.className = "user-right";
-          const userLink = document.createElement("a");
-          userLink.href = "/users/" + user.id;
-          userLink.setAttribute("data-test", "user-item-link");
-          userLink.textContent = user.name;
-          userRight.appendChild(userLink);
-          div.appendChild(userRight);
+            const userLeft = document.createElement("div");
+            userLeft.className = "user-left";
+            const userIcon = document.createElement("img");
+            userIcon.className = "user-left";
+            userIcon.src = user.imageName;
+            userLeft.appendChild(userIcon);
+            div.appendChild(userLeft);
 
-          //ここはユーザーのフォロー状況に合わせて変える
-          const followButton = document.createElement("div");
-          followButton.className = "follows-followers-list-button";
-          const followButtonInner = document.createElement("div");
-          followButtonInner.className = apiEndpoint.includes("followers")
-            ? "follow button"
-            : "following button";
-          followButtonInner.setAttribute("data-user-id", user.id);
-          followButton.appendChild(followButtonInner);
-          div.appendChild(followButton);
+            const userRight = document.createElement("div");
+            userRight.className = "user-right";
+            const userLink = document.createElement("a");
+            userLink.href = "/users/" + user.id;
+            userLink.setAttribute("data-test", "user-item-link");
+            userLink.textContent = user.name;
+            userRight.appendChild(userLink);
+            div.appendChild(userRight);
 
-          document.querySelector(".follows-followers-list-items").appendChild(div);
+            const followButton = document.createElement("div");
+            followButton.className = "follows-followers-list-button";
+            const followButtonInner = document.createElement("div");
+            followButtonInner.className = user.follow ? "following button" : "follow button";
+            followButtonInner.setAttribute("data-user-id", user.id);
+            followButton.appendChild(followButtonInner);
+            div.appendChild(followButton);
+
+            followsFollowersList.appendChild(div);
+          });
         });
-      });
+    }
+
   }
 };
 
