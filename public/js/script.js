@@ -2,7 +2,7 @@ const apiUrls = {
   followers: `/users/${location.pathname.split("/")[2]}/followers`,
   followings: `/users/${location.pathname.split("/")[2]}/followings`,
   follow: `/follow`,
-  unfollow: `/api/unfollow`,
+  unfollow: `/follow`,
 };
 
 const selectableItems = document.querySelector(".selectable-items");
@@ -82,16 +82,16 @@ const toggleFollowersFollowing = (item1, item2, apiEndpoint) => {
           userLeft.className = "user-left";
           const userIcon = document.createElement("img");
           userIcon.className = "user-left";
-          userIcon.src = user.imageName;
+          userIcon.src = user.iconURL;
           userLeft.appendChild(userIcon);
           div.appendChild(userLeft);
 
           const userRight = document.createElement("div");
           userRight.className = "user-right";
           const userLink = document.createElement("a");
-          userLink.href = "/users/" + user.id;
+          userLink.href = "/users/" + user.userID;
           userLink.setAttribute("data-test", "user-item-link");
-          userLink.textContent = user.name;
+          userLink.textContent = user.userName;
           userRight.appendChild(userLink);
           div.appendChild(userRight);
 
@@ -102,7 +102,7 @@ const toggleFollowersFollowing = (item1, item2, apiEndpoint) => {
           followButtonInner.className = apiEndpoint.includes("followers")
             ? "follow button"
             : "following button";
-          followButtonInner.setAttribute("data-user-id", user.id);
+          followButtonInner.setAttribute("data-user-id", user.userID);
           followButton.appendChild(followButtonInner);
           div.appendChild(followButton);
 
@@ -115,14 +115,16 @@ const toggleFollowersFollowing = (item1, item2, apiEndpoint) => {
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const pushButton = button => {
   const userID = button.getAttribute("data-user-id");
-  let apiEndpoint, removeClass, addClass;
+  let apiEndpoint, apiMethod, removeClass, addClass;
 
   if (button.classList.contains("follow")) {
     apiEndpoint = `${apiUrls.follow}/${userID}`;
+    apiMethod = "POST";
     removeClass = "follow";
     addClass = "following";
   } else if (button.classList.contains("following")) {
     apiEndpoint = `${apiUrls.unfollow}/${userID}`;
+    apiMethod = "DELETE";
     removeClass = "following";
     addClass = "follow";
   }
@@ -132,21 +134,18 @@ const pushButton = button => {
   button.classList.add(addClass);
 
   fetch(apiEndpoint, {
-    method: "POST",
+    method: apiMethod,
   })
     .then(response => response.json())
     .then(data => {
-      console.log(data);
       if (!data.success) {
-        console.log("bbbbb");
         // エラーが発生した場合は、元に戻す
         button.classList.remove(addClass);
         button.classList.add(removeClass);
         alert("エラーが発生しました。もう一度お試しください。");
       }
     })
-    .catch((e) => {
-      console.log(e);
+    .catch(() => {
       // エラーが発生した場合は、元に戻す
       button.classList.remove(addClass);
       button.classList.add(removeClass);
