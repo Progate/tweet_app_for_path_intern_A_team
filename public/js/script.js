@@ -55,7 +55,9 @@ window.addEventListener("click", () => {
 if (selectableItems) {
   followersItem = selectableItems.querySelector('[name="followers"]');
   followingItem = selectableItems.querySelector('[name="following"]');
-  followersYouFollowItem = selectableItems.querySelector('[name="followers_you_follow"]');
+  followersYouFollowItem = selectableItems.querySelector(
+    '[name="followers_you_follow"]'
+  );
 
   followersItem.addEventListener("click", () =>
     toggleFollowersFollowing(followersItem, followingItem, apiUrls.followers)
