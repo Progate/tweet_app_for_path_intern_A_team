@@ -217,7 +217,11 @@ userRouter.get("/:userId/followings", ensureAuthUser, async (req, res) => {
       imageName: true,
     },
   });
-  res.json(users);
+  const usersWithHasFollow = users.map(user => {
+    return {...user, hasFollowed: true}
+  });
+  console.log(usersWithHasFollow);
+  res.json(usersWithHasFollow);
 });
 
 userRouter.get("/:userId/followers", ensureAuthUser, async (req, res) => {
