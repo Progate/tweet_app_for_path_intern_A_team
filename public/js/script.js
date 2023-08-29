@@ -5,7 +5,7 @@ const apiUrls = {
   unfollow: `/follow`,
 };
 
-const selectableItems = document.querySelector(".selectable-items");
+const selectableItems = document.querySelectorAll(".selectable-item");
 const modal = document.querySelector(".modal");
 
 let followersItem, followingItem;
@@ -52,29 +52,42 @@ window.addEventListener("click", () => {
   }
 });
 
-if (selectableItems) {
-  followersItem = selectableItems.querySelector('[name="followers"]');
-  followingItem = selectableItems.querySelector('[name="following"]');
+if (selectableItems){
 
-  followersItem.addEventListener("click", () =>
-    toggleFollowersFollowing(followersItem, followingItem, apiUrls.followers)
-  );
-
-  followingItem.addEventListener("click", () =>
-    toggleFollowersFollowing(followingItem, followersItem, apiUrls.followings)
-  );
+  selectableItems.forEach(item => {
+    if (item.getAttribute("name") === "followers") {
+      followersItem = item;
+    } else if (item.getAttribute("name") === "following") {
+      followingItem = item;
+    }
+    item.addEventListener("click", () => {
+      toggleFollowersFollowing(item);
+    });
+  });
+  
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const toggleFollowersFollowing = (item1, item2, apiEndpoint) => {
-  if (!item1.classList.contains("selected")) {
-    item1.classList.add("selected");
-    item2.classList.remove("selected");
+const toggleFollowersFollowing = (item) => {
+  if (!item.classList.contains("selected")) {
+    document.querySelectorAll(".selected").forEach(selectedItem => {
+      selectedItem.classList.remove("selected");
+    });
+
+    item.classList.add("selected");
+
+    if (item.getAttribute("name") === "followers") {
+      apiEndpoint = apiUrls.followers;
+    } else if (item.getAttribute("name") === "following") {
+      apiEndpoint = apiUrls.followings;
+    }
 
     fetch(apiEndpoint)
       .then(response => response.json())
       .then(data => {
         data.forEach(user => {
+          document.querySelector(".follows-followers-list-items").removeChild();
+
           const div = document.createElement("div");
           div.className = "users-index-item";
 
@@ -106,7 +119,7 @@ const toggleFollowersFollowing = (item1, item2, apiEndpoint) => {
           followButton.appendChild(followButtonInner);
           div.appendChild(followButton);
 
-          document.querySelector(".follows-followers-list").appendChild(div);
+          document.querySelector(".follows-followers-list-items").appendChild(div);
         });
       });
   }
