@@ -20,11 +20,7 @@ import {
 import {ensureCorrectUser} from "@/middlewares/current_user";
 import {body, validationResult} from "express-validator";
 import {HashPassword} from "@/lib/hash_password";
-import {
-  hasFollow,
-  getFollowedCount,
-  getFollowingCount
-} from "@/models/follow";
+import {hasFollow, getFollowedCount, getFollowingCount} from "@/models/follow";
 
 export const userRouter = express.Router();
 
@@ -77,7 +73,6 @@ userRouter.get("/:userId", ensureAuthUser, async (req, res, next) => {
   const followingCount = await getFollowingCount(userNumber);
   const followerCount = await getFollowedCount(userNumber);
   const hasFollowed = await hasFollow(currentUserId, userNumber);
-  console.log(hasFollowed);
   res.render("users/show", {
     followingCount,
     followerCount,
@@ -233,7 +228,6 @@ userRouter.get("/:userId/followings", ensureAuthUser, async (req, res) => {
   const usersWithHasFollow = users.map(user => {
     return {...user, hasFollowed: true};
   });
-  console.log(usersWithHasFollow);
   res.json(usersWithHasFollow);
 });
 
