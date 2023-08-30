@@ -137,12 +137,7 @@ const toggleFollowersFollowing = item => {
               : "follow button";
             followButtonInner.setAttribute("data-user-id", user.id);
             followButton.appendChild(followButtonInner);
-            /*
-            div.appendChild(followButton);
-            */
-
-            div['appendChild'](followButton);
-
+            div.appendChild(followButton)
           }
 
 
