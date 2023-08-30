@@ -188,7 +188,6 @@ const addUsersToUserList = (list, users) => {
   div.className = "users-index-item";
   div.style.visibility = "hidden";
   list.appendChild(div);
-
 };
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
