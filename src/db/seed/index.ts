@@ -47,7 +47,7 @@ export const insertRetweets = async (
   console.log(
     `successfully inserted records of ${createMany.count} to retweets table`
   );
-}
+};
 
 export const insertFollows = async (
   data: Prisma.Enumerable<Prisma.FollowCreateManyInput>
