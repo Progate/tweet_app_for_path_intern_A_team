@@ -64,7 +64,7 @@ userRouter.post(
 /** A page to show user details */
 userRouter.get("/:userId", ensureAuthUser, async (req, res, next) => {
   const {userId} = req.params;
-  const currentUserId = Number(req.authentication?.currentUserId);
+  const currentUserId = req.authentication?.currentUserId;
   const userNumber = Number(userId);
   const userTimeline = await getUserPostTimeline(Number(userId));
   if (!userTimeline)
@@ -72,7 +72,11 @@ userRouter.get("/:userId", ensureAuthUser, async (req, res, next) => {
   const {user, timeline} = userTimeline;
   const followingCount = await getFollowingCount(userNumber);
   const followerCount = await getFollowedCount(userNumber);
-  const hasFollowed = await hasFollow(currentUserId, userNumber);
+  const hasFollowed =
+    currentUserId !== undefined
+      ? await hasFollow(currentUserId, userNumber)
+      : false;
+
   res.render("users/show", {
     followingCount,
     followerCount,
@@ -202,6 +206,14 @@ userRouter.get("/:userId/followings", ensureAuthUser, async (req, res) => {
   const prisma = databaseManager.getInstance();
   const {userId} = req.params;
   const userNumber = Number(userId);
+  const currentUserId = req.authentication?.currentUserId;
+  if (currentUserId === undefined) {
+    // `ensureAuthUser` enforces `currentUserId` is not undefined.
+    // This must not happen.
+    return res.json({
+      msg: "Invalid error: currentUserId is undefined.",
+    });
+  }
   const followedUsers = await prisma.follow.findMany({
     where: {
       followingId: userNumber,
@@ -225,9 +237,14 @@ userRouter.get("/:userId/followings", ensureAuthUser, async (req, res) => {
       imageName: true,
     },
   });
-  const usersWithHasFollow = users.map(user => {
-    return {...user, hasFollowed: true};
-  });
+  const usersWithHasFollow = await Promise.all(
+    users.map(async user => {
+      return {
+        ...user,
+        hasFollowed: await hasFollow(currentUserId, user.id),
+      };
+    })
+  );
   res.json(usersWithHasFollow);
 });
 
@@ -235,6 +252,14 @@ userRouter.get("/:userId/followers", ensureAuthUser, async (req, res) => {
   const prisma = databaseManager.getInstance();
   const {userId} = req.params;
   const userNumber = Number(userId);
+  const currentUserId = req.authentication?.currentUserId;
+  if (currentUserId === undefined) {
+    // `ensureAuthUser` enforces `currentUserId` is not undefined.
+    // This must not happen.
+    return res.json({
+      msg: "Invalid error: currentUserId is undefined.",
+    });
+  }
   const followingUsers = await prisma.follow.findMany({
     where: {
       followedId: userNumber,
@@ -263,7 +288,7 @@ userRouter.get("/:userId/followers", ensureAuthUser, async (req, res) => {
     users.map(async user => {
       return {
         ...user,
-        hasFollowed: await hasFollow(userNumber, user.id),
+        hasFollowed: await hasFollow(currentUserId, user.id),
       };
     })
   );
