@@ -373,6 +373,62 @@ header {
 }
 
 /* posts/index ================================ */
+.container.posts {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 24px;
+  display: flex;
+}
+
+.timeline-header {
+  align-self: stretch;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  display: inline-flex
+}
+
+.posts-heading {
+  text-align: center;
+  color: #2D3133;
+  font-size: 20px;
+  font-family: Avenir Next;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 1px;
+  word-wrap: break-word
+}
+
+.all-post-button {
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+  display: flex
+}
+
+.all-post-button-button{
+  color: #3ECDC6;
+  font-size: 14px;
+  font-family: Avenir Next;
+  font-weight: 500;
+  line-height: 26px;
+  word-wrap: break-word
+}
+
+.arrow-forward {
+  height: 22px;
+  width: 24px;
+  flex: 1 1 0;
+  padding: 4px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+  background-color: #3ECDC5;
+  clip-path: polygon(0 44%, 50% 44%, 50% 15%, 100% 50%, 50% 85%, 50% 56%, 0 56%);
+}
+
 .posts-index-item {
   padding: 20px 30px;
   background-color: white;
