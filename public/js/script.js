@@ -69,13 +69,13 @@ if (selectableItems) {
       followingItem = item;
     }
     item.addEventListener("click", () => {
-      toggleFollowersFollowing(item);
+      toggleSelectableItems(item);
     });
   });
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const toggleFollowersFollowing = item => {
+const toggleSelectableItems = item => {
   let apiEndpoint;
 
   if (!item.classList.contains("selected")) {
@@ -104,44 +104,16 @@ const toggleFollowersFollowing = item => {
     followsFollowersList.removeChild(item);
   });
 
+  if (apiEndpoint === apiUrls.followersYouFollow) {
+    followersYouFollowAlternative(followsFollowersList);
+    return;
+  }
+
   if (apiEndpoint) {
     fetch(apiEndpoint)
       .then(response => response.json())
-      .then(data => {
-        data.forEach(user => {
-          const div = document.createElement("div");
-          div.className = "users-index-item";
-
-          const userLeft = document.createElement("div");
-          userLeft.className = "user-left";
-          const userIcon = document.createElement("img");
-          userIcon.className = "user-left";
-          userIcon.src = user.imageName;
-          userLeft.appendChild(userIcon);
-          div.appendChild(userLeft);
-
-          const userRight = document.createElement("div");
-          userRight.className = "user-right";
-          const userLink = document.createElement("a");
-          userLink.href = "/users/" + user.id;
-          userLink.setAttribute("data-test", "user-item-link");
-          userLink.textContent = user.name;
-          userRight.appendChild(userLink);
-          div.appendChild(userRight);
-          if (myUserID !== user.id) {
-            const followButton = document.createElement("div");
-            followButton.className = "follows-followers-list-button";
-            const followButtonInner = document.createElement("div");
-            followButtonInner.className = user.hasFollowed
-              ? "following button"
-              : "follow button";
-            followButtonInner.setAttribute("data-user-id", user.id);
-            followButton.appendChild(followButtonInner);
-            div.appendChild(followButton);
-          }
-
-          followsFollowersList.appendChild(div);
-        });
+      .then(users => {
+        addUsersToUserList(followsFollowersList, users);
       });
   }
 };
@@ -161,6 +133,8 @@ const pushButton = button => {
     apiMethod = "DELETE";
     removeClass = "following";
     addClass = "follow";
+  } else {
+    return;
   }
 
   // ボタンの表示を切り替える
@@ -185,4 +159,59 @@ const pushButton = button => {
       button.classList.add(removeClass);
       alert("エラーが発生しました。もう一度お試しください。");
     });
+};
+
+//API実装が間に合わなかった場合無理やりリストを作成する
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+const followersYouFollowAlternative = list => {
+  fetch(`/users/${myUserID}/followings`)
+    .then(response => response.json())
+    .then(myFollowings => {
+      fetch(apiUrls.followers)
+        .then(response => response.json())
+        .then(myFollowers => {
+          const followersYouFollowList = myFollowers.filter(user =>
+            myFollowings.some(following => following.id === user.id)
+          );
+          addUsersToUserList(list, followersYouFollowList);
+        });
+    });
+};
+
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+const addUsersToUserList = (list, users) => {
+  users.forEach(user => {
+    const div = document.createElement("div");
+    div.className = "users-index-item";
+
+    const userLeft = document.createElement("div");
+    userLeft.className = "user-left";
+    const userIcon = document.createElement("img");
+    userIcon.className = "user-left";
+    userIcon.src = user.imageName;
+    userLeft.appendChild(userIcon);
+    div.appendChild(userLeft);
+
+    const userRight = document.createElement("div");
+    userRight.className = "user-right";
+    const userLink = document.createElement("a");
+    userLink.href = "/users/" + user.id;
+    userLink.setAttribute("data-test", "user-item-link");
+    userLink.textContent = user.name;
+    userRight.appendChild(userLink);
+    div.appendChild(userRight);
+    if (myUserID !== user.id) {
+      const followButton = document.createElement("div");
+      followButton.className = "follows-followers-list-button";
+      const followButtonInner = document.createElement("div");
+      followButtonInner.className = user.hasFollowed
+        ? "button following"
+        : "button follow";
+      followButtonInner.setAttribute("data-user-id", user.id);
+      followButton.appendChild(followButtonInner);
+      div.appendChild(followButton);
+    }
+
+    list.appendChild(div);
+  });
 };
