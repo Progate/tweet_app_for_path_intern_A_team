@@ -34,8 +34,8 @@
         <% } else if(hasFollowed) { %>
           <div class="button following" data-user-id="<%= user.id %>"></div>
           <% } else { %>
-          <div class="button follow" data-user-id="<%= user.id %>"></div>
-          <% } %>
+            <div class="button follow" data-user-id="<%= user.id %>"></div>
+            <% } %>
 
     </div>
     <ul class="user-tabs">
@@ -61,9 +61,11 @@
         <div class="selectable-item" name="following">
           Following
         </div>
-        <div class="selectable-item" name="followers_you_follow">
-          知り合いのフォロワー
-        </div>
+        <% if(currentUser.id!==user.id) { %>
+          <div class="selectable-item" name="followers_you_follow">
+            知り合いのフォロワー
+          </div>
+          <% } %>
       </div>
       <div class="close-button">
       </div>
