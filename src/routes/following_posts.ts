@@ -91,7 +91,7 @@ followingPostRouter.get("/", ensureAuthUser, async (req, res, next) => {
             id: followingPost.user.id,
             name: followingPost.user.name,
             imageName: followingPost.user.imageName,
-          }
+          },
         },
         user: {
           id: followingPost.user.id,
@@ -112,7 +112,7 @@ followingPostRouter.get("/", ensureAuthUser, async (req, res, next) => {
               id: followingRetweet.post.user.id,
               name: followingRetweet.post.user.name,
               imageName: followingRetweet.post.user.imageName,
-            }
+            },
           },
           user: {
             id: followingRetweet.post.user.id,
