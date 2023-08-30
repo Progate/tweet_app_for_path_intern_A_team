@@ -42,11 +42,12 @@ followingPostRouter.get("/", ensureAuthUser, async (req, res, next) => {
       user: {
         select: {
           id: true,
+          name: true,
+          imageName: true,
         },
       },
     },
   });
-  console.log(followingPosts);
   res.render("following_posts/index", {
     followingPosts,
   });
