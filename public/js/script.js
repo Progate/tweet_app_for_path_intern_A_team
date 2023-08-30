@@ -133,8 +133,8 @@ const toggleFollowersFollowing = item => {
             followButton.className = "follows-followers-list-button";
             const followButtonInner = document.createElement("div");
             followButtonInner.className = user.hasFollowed
-              ? "following button"
-              : "follow button";
+              ? "button following"
+              : "button follow";
             followButtonInner.setAttribute("data-user-id", user.id);
             followButton.appendChild(followButtonInner);
             div.appendChild(followButton);
@@ -161,6 +161,8 @@ const pushButton = button => {
     apiMethod = "DELETE";
     removeClass = "following";
     addClass = "follow";
+  } else {
+    return;
   }
 
   // ボタンの表示を切り替える
