@@ -39,7 +39,11 @@ followingPostRouter.get("/", ensureAuthUser, async (req, res, next) => {
     select: {
       id: true,
       content: true,
-      userId: true,
+      user: {
+        select: {
+          id: true,
+        }
+      }
     },
   });
   console.log(followingPosts);
