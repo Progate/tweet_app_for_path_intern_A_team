@@ -132,7 +132,7 @@ const toggleFollowersFollowing = item => {
             const followButton = document.createElement("div");
             followButton.className = "follows-followers-list-button";
             const followButtonInner = document.createElement("div");
-            followButtonInner.className = user.follow
+            followButtonInner.className = user.hasFollowed
               ? "following button"
               : "follow button";
             followButtonInner.setAttribute("data-user-id", user.id);
