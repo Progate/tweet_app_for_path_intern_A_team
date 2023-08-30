@@ -1,8 +1,9 @@
 const apiUrls = {
   followers: `/users/${location.pathname.split("/")[2]}/followers`,
   followings: `/users/${location.pathname.split("/")[2]}/followings`,
-  followersYouFollow: `/users/${location.pathname.split("/")[2]
-    }/followers_you_follow`,
+  followersYouFollow: `/users/${
+    location.pathname.split("/")[2]
+  }/followers_you_follow`,
   follow: `/follow`,
   unfollow: `/follow`,
 };
@@ -13,7 +14,7 @@ const myLink = document.querySelector('a[data-test="header-link-mypage"]');
 let myUserID;
 if (myLink) {
   const url = new URL(myLink.href);
-  myUserID = Number(url.pathname.split('/').pop());
+  myUserID = Number(url.pathname.split("/").pop());
 } else {
 }
 
@@ -137,9 +138,8 @@ const toggleFollowersFollowing = item => {
               : "follow button";
             followButtonInner.setAttribute("data-user-id", user.id);
             followButton.appendChild(followButtonInner);
-            div.appendChild(followButton)
+            div.appendChild(followButton);
           }
-
 
           followsFollowersList.appendChild(div);
         });
