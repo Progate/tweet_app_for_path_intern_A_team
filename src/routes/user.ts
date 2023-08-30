@@ -20,6 +20,7 @@ import {
 import {ensureCorrectUser} from "@/middlewares/current_user";
 import {body, validationResult} from "express-validator";
 import {HashPassword} from "@/lib/hash_password";
+import {hasFollow, getFollowedCount, getFollowingCount} from "@/models/follow";
 
 export const userRouter = express.Router();
 
@@ -63,11 +64,23 @@ userRouter.post(
 /** A page to show user details */
 userRouter.get("/:userId", ensureAuthUser, async (req, res, next) => {
   const {userId} = req.params;
+  const currentUserId = req.authentication?.currentUserId;
+  const userNumber = Number(userId);
   const userTimeline = await getUserPostTimeline(Number(userId));
   if (!userTimeline)
     return next(new Error("Invalid error: The user is undefined."));
   const {user, timeline} = userTimeline;
+  const followingCount = await getFollowingCount(userNumber);
+  const followerCount = await getFollowedCount(userNumber);
+  const hasFollowed =
+    currentUserId !== undefined
+      ? await hasFollow(currentUserId, userNumber)
+      : false;
+
   res.render("users/show", {
+    followingCount,
+    followerCount,
+    hasFollowed,
     user,
     timeline,
   });
@@ -76,11 +89,22 @@ userRouter.get("/:userId", ensureAuthUser, async (req, res, next) => {
 /** A page to list all tweets liked by a user */
 userRouter.get("/:userId/likes", ensureAuthUser, async (req, res, next) => {
   const {userId} = req.params;
+  const currentUserId = req.authentication?.currentUserId;
+  const userNumber = Number(userId);
   const userTimeline = await getUserLikesTimeline(Number(userId));
   if (!userTimeline)
     return next(new Error("Invalid error: The user is undefined."));
   const {user, timeline} = userTimeline;
+  const followingCount = await getFollowingCount(userNumber);
+  const followerCount = await getFollowedCount(userNumber);
+  const hasFollowed =
+    currentUserId !== undefined
+      ? await hasFollow(currentUserId, userNumber)
+      : false;
   res.render("users/likes", {
+    followingCount,
+    followerCount,
+    hasFollowed,
     user,
     timeline,
   });
@@ -186,3 +210,117 @@ userRouter.patch(
     res.redirect(`/users/${userId}`);
   }
 );
+
+import {databaseManager} from "@/db/index";
+
+userRouter.get("/:userId/followings", ensureAuthUser, async (req, res) => {
+  const prisma = databaseManager.getInstance();
+  const {userId} = req.params;
+  const userNumber = Number(userId);
+  const currentUserId = req.authentication?.currentUserId;
+  if (currentUserId === undefined) {
+    // `ensureAuthUser` enforces `currentUserId` is not undefined.
+    // This must not happen.
+    return res.json({
+      msg: "Invalid error: currentUserId is undefined.",
+    });
+  }
+  const followedUsers = await prisma.follow.findMany({
+    where: {
+      followingId: userNumber,
+    },
+    select: {
+      followedId: true,
+    },
+  });
+  const followedUserIds = followedUsers.map(function (value) {
+    return value.followedId;
+  });
+  const users = await prisma.user.findMany({
+    where: {
+      id: {
+        in: followedUserIds,
+      },
+    },
+    select: {
+      id: true,
+      name: true,
+      imageName: true,
+    },
+  });
+  const usersWithHasFollow = await Promise.all(
+    users.map(async user => {
+      return {
+        ...user,
+        hasFollowed: await hasFollow(currentUserId, user.id),
+      };
+    })
+  );
+  res.json(usersWithHasFollow);
+});
+
+userRouter.get("/:userId/followers", ensureAuthUser, async (req, res) => {
+  const prisma = databaseManager.getInstance();
+  const {userId} = req.params;
+  const userNumber = Number(userId);
+  const currentUserId = req.authentication?.currentUserId;
+  if (currentUserId === undefined) {
+    // `ensureAuthUser` enforces `currentUserId` is not undefined.
+    // This must not happen.
+    return res.json({
+      msg: "Invalid error: currentUserId is undefined.",
+    });
+  }
+  const followingUsers = await prisma.follow.findMany({
+    where: {
+      followedId: userNumber,
+    },
+    select: {
+      followingId: true,
+    },
+  });
+  const followingUserIds = followingUsers.map(function (value) {
+    return value.followingId;
+  });
+  const users = await prisma.user.findMany({
+    where: {
+      id: {
+        in: followingUserIds,
+      },
+    },
+    select: {
+      id: true,
+      name: true,
+      imageName: true,
+    },
+  });
+
+  const usersWithHasFollow = await Promise.all(
+    users.map(async user => {
+      return {
+        ...user,
+        hasFollowed: await hasFollow(currentUserId, user.id),
+      };
+    })
+  );
+
+  // const postsWithUser = await Promise.all(
+  //   posts.map(async post => {
+  //     const user = await post.user();
+  //     return {
+  //       ...post,
+  //       user,
+  //     };
+  //   })
+  // );
+
+  /**
+   * {
+   *   id: string
+   *   name: string
+   *   imageName: string
+   *   hasFollow: boolean
+   * }
+   */
+  res.json(usersWithHasFollow);
+});

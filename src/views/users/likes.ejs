@@ -2,11 +2,41 @@
   <div class="container">
     <div class="user">
       <img src="<%= user.imageName %>" data-test="user-image">
-      <h2 data-test="user-name"><%= user.name %></h2>
-      <p data-test="user-email"><%= user.email %></p>
-      <% if(currentUser.id === user.id) { %>
+      <div class="user-info">
+        <div class="user-name-email">
+          <h2 data-test="user-name">
+            <%= user.name %>
+          </h2>
+          <p data-test="user-email">
+            <%= user.email %>
+          </p>
+        </div>
+        <div class="follows-followers">
+          <div class="followers">
+            <div class="link-follows-followers-num">
+              <%= followerCount %>
+            </div>
+            <div class="link-follows-followers">
+              Followers</div>
+          </div>
+          <div class="vector1"></div>
+          <div class="following">
+            <div class="link-follows-followers-num">
+              <%= followingCount %>
+            </div>
+            <div class="link-follows-followers">
+              Following</div>
+          </div>
+        </div>
+      </div>
+      <% if(currentUser.id===user.id) { %>
         <a href="<%= `/users/${user.id}/edit` %>">Edit</a>
-      <% } %>
+        <% } else if(hasFollowed) { %>
+          <div class="button following" data-user-id="<%= user.id %>"></div>
+          <% } else { %>
+            <div class="button follow" data-user-id="<%= user.id %>"></div>
+            <% } %>
+
     </div>
     <ul class="user-tabs">
       <li>

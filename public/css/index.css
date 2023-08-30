@@ -1,26 +1,26 @@
 body {
-    margin: 0;
+  margin: 0;
 }
 
 ul {
-    margin: 0;
+  margin: 0;
 }
 
 a:hover {
-    background: none;
+  background: none;
 }
 
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 header {
-    color: white;
+  color: white;
 }
 
 /* reset ================================ */
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 html {
@@ -29,7 +29,8 @@ html {
   letter-spacing: 1px;
 }
 
-ul, li {
+ul,
+li {
   list-style-type: none;
   padding: 0;
   margin: 0;
@@ -41,7 +42,13 @@ a {
   font-size: 14px;
 }
 
-h1, h2, h3, h4, h5, h6, p {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
   margin: 0;
 }
 
@@ -80,6 +87,118 @@ body {
   clear: both;
 }
 
+.button {
+  padding-left: 32px;
+  padding-right: 32px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border-radius: 2px;
+  justify-content: center;
+  align-items: flex-start;
+  display: inline-flex;
+  text-align: center;
+  font-size: 16px;
+  font-family: Arial;
+  font-weight: 400;
+  letter-spacing: 2px;
+  word-wrap: break-word;
+  line-height: normal;
+  cursor: pointer;
+  user-select: none;
+}
+
+.button.follow {
+  padding-top: 8.50px;
+  padding-bottom: 8.50px;
+  background: #3ECDC6;
+  color: white;
+}
+
+.button.follow::before {
+  content: 'Follow';
+}
+
+.button.following {
+  border: 0.50px #3ECDC6 solid;
+  color: #3ECDC6;
+}
+
+.button.following::before {
+  content: 'Following';
+}
+
+.button.following:hover {
+  background: rgba(231, 82, 82, 0.10);
+  border: 0.50px #E75252 solid;
+  color: #E75252;
+}
+
+.button.following:hover::before {
+  content: 'Unfollow';
+}
+
+.button.cancel {
+  border: 0.50px #0B0F15 solid;
+  color: #0B0F15;
+}
+
+.button.cancel::before {
+  content: 'Cancel';
+}
+
+.modal {
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  left: 0px;
+  top: 0px;
+  position: fixed;
+  background: rgba(0, 0, 0, 0.70);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  clear: both;
+  visibility: hidden;
+  transition: ease-in-out .3s;
+  opacity: 0;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.modal::-webkit-scrollbar {
+  display:none;
+ }
+
+.modal.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.close-button {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.close-button::before,
+.close-button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2px;
+  height: 100%;
+  background-color: black;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.close-button::before {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+
 /* header ================================ */
 header {
   height: 64px;
@@ -96,7 +215,7 @@ header {
   line-height: 64px;
 }
 
-.header-logo a{
+.header-logo a {
   color: white;
   font-size: 22px;
 }
@@ -261,6 +380,62 @@ header {
 }
 
 /* posts/index ================================ */
+.container.posts {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 24px;
+  display: flex;
+}
+
+.timeline-header {
+  align-self: stretch;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  display: inline-flex
+}
+
+.posts-heading {
+  text-align: center;
+  color: #2D3133;
+  font-size: 20px;
+  font-family: Avenir Next;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 1px;
+  word-wrap: break-word
+}
+
+.all-post-button {
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+  display: flex
+}
+
+.all-post-button-button{
+  color: #3ECDC6;
+  font-size: 14px;
+  font-family: Avenir Next;
+  font-weight: 500;
+  line-height: 26px;
+  word-wrap: break-word
+}
+
+.arrow-forward {
+  height: 22px;
+  width: 24px;
+  flex: 1 1 0;
+  padding: 4px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+  background-color: #3ECDC5;
+  clip-path: polygon(0 44%, 50% 44%, 50% 15%, 100% 50%, 50% 85%, 50% 56%, 0 56%);
+}
+
 .posts-index-item {
   padding: 20px 30px;
   background-color: white;
@@ -333,6 +508,13 @@ img[data-test=post-image] {
   margin: 20px 0;
 }
 
+.post-header {
+  align-self: stretch;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+}
+
 .post-time {
   color: #8899a6;
   margin-bottom: 10px;
@@ -382,7 +564,8 @@ img[data-test=post-image] {
   float: right;
 }
 
-.post-menus a, .post-menus input {
+.post-menus a,
+.post-menus input {
   color: #8899a6;
   text-decoration: underline;
   font-size: 14px;
@@ -499,6 +682,17 @@ input[type="checkbox"] {
   width: 100%;
 }
 
+.users-index-item.anim {
+  opacity: 0;
+  transform: translateX(200px);
+  transition: opacity 1s, transform 1s;
+}
+
+.users-index-item.anim.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
 .user-left img {
   width: 50px;
   height: 50px;
@@ -534,7 +728,27 @@ input[type="checkbox"] {
 }
 
 .user {
-  margin-bottom: 20px;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 16px;
+  display: flex
+}
+
+.user-info {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+  display: flex
+}
+
+.user-name-email {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1px;
+  display: flex
 }
 
 .user img {
@@ -554,7 +768,6 @@ input[type="checkbox"] {
 
 .user p {
   font-size: 13px;
-  margin-bottom: 15px;
 }
 
 .user a {
@@ -594,6 +807,120 @@ input[type="checkbox"] {
   color: #afb6bf;
 }
 
+.follows-followers {
+  justify-content: flex-start;
+  align-items: center;
+  gap: 16px;
+  display: inline-flex;
+  cursor: pointer;
+  user-select: none;
+}
+
+.follows-followers a{
+  text-decoration: none;
+}
+
+.follows-followers .followers {
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 8px;
+  display: flex;
+  cursor: pointer;
+  user-select: none;
+}
+
+.follows-followers .vector1 {
+  width: 0px;
+  align-self: stretch;
+  border: 0.25px #9E9E9E solid
+}
+
+.follows-followers .following {
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 8px;
+  display: flex
+}
+
+.follows-followers .link-follows-followers-num {
+  color: #212121;
+  font-size: 14px;
+  font-family: 'Avenir Next', 'Hiragino Sans', sans-serif;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 1px;
+  word-wrap: break-word
+}
+
+.follows-followers .link-follows-followers {
+  color: #212121;
+  font-size: 14px;
+  font-family: 'Avenir Next', 'Hiragino Sans', sans-serif;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 1px;
+  word-wrap: break-word
+}
+
+.follows-followers-list {
+  top: 150px;
+  position: absolute;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: flex-start;
+  display: inline-flex;
+  width: 40%;
+}
+
+.follows-followers-list .follows-followers-list-header {
+  align-self: stretch;
+  height: 57.80px;
+  padding-left: 16px;
+  padding-right: 16px;
+  background: white;
+  box-shadow: 0px 2px 6px #C1CED7;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  display: inline-flex;
+}
+
+.selectable-items {
+  justify-content: flex-start;
+  align-items: flex-start;
+  display: flex;
+}
+
+.selectable-item {
+  padding-top: 15px;
+  padding-bottom: 18.80px;
+  padding-left: 30px;
+  padding-right: 30.76px;
+  justify-content: center;
+  align-items: flex-start;
+  display: flex;
+  text-align: center;
+  color: #AFB6BF;
+  font-size: 14px;
+  font-family: "Avenir Next";
+  font-weight: 400;
+  line-height: 23.80px;
+  letter-spacing: 1px;
+  word-wrap: break-word;
+  cursor: pointer;
+  user-select: none;
+}
+
+.selectable-item.selected {
+  border-bottom: 1px #3ECDC6 solid;
+  color: #57575F;
+}
+
+.follows-followers-list-button {
+  padding-left: 25px;
+  display: table-cell;
+  vertical-align: middle;
+}
 /* users/new, users/edit ================================ */
 .users-form input {
   margin-bottom: 15px;

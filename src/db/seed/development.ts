@@ -1,4 +1,10 @@
-import {insertUsers, insertPosts, insertLikes} from "./index";
+import {
+  insertUsers,
+  insertPosts,
+  insertLikes,
+  insertFollows,
+  insertRetweets,
+} from "./index";
 
 const main = async (): Promise<void> => {
   await insertUsers([
@@ -192,6 +198,80 @@ const main = async (): Promise<void> => {
       userId: 4,
       postId: 7,
       createdAt: new Date("2021-06-23 03:00:34.725"),
+    },
+  ]);
+  await insertRetweets([
+    {
+      userId: 1,
+      postId: 2,
+      retweetedAt: new Date("2021-06-23 03:00:35.028"),
+    },
+    {
+      userId: 2,
+      postId: 3,
+      retweetedAt: new Date("2021-06-23 03:02:35.028"),
+    },
+    {
+      userId: 3,
+      postId: 4,
+      retweetedAt: new Date("2021-06-23 03:04:35.028"),
+    },
+    {
+      userId: 3,
+      postId: 5,
+      retweetedAt: new Date("2021-06-23 03:05:35.028"),
+    },
+    {
+      userId: 5,
+      postId: 6,
+      retweetedAt: new Date("2021-06-23 03:06:35.028"),
+    },
+  ]);
+  await insertFollows([
+    {
+      followingId: 1,
+      followedId: 2,
+      createdAt: new Date("2021-08-27 00:00:34.725"),
+    },
+    {
+      followingId: 1,
+      followedId: 3,
+      createdAt: new Date("2021-08-27 01:00:34.725"),
+    },
+    {
+      followingId: 1,
+      followedId: 5,
+      createdAt: new Date("2021-08-27 02:00:34.725"),
+    },
+    {
+      followingId: 2,
+      followedId: 1,
+      createdAt: new Date("2021-08-27 03:00:34.725"),
+    },
+    {
+      followingId: 2,
+      followedId: 4,
+      createdAt: new Date("2021-08-27 04:00:34.725"),
+    },
+    {
+      followingId: 2,
+      followedId: 5,
+      createdAt: new Date("2021-08-27 05:00:34.725"),
+    },
+    {
+      followingId: 3,
+      followedId: 4,
+      createdAt: new Date("2021-08-27 06:00:34.725"),
+    },
+    {
+      followingId: 3,
+      followedId: 5,
+      createdAt: new Date("2021-08-27 07:00:34.725"),
+    },
+    {
+      followingId: 5,
+      followedId: 1,
+      createdAt: new Date("2021-08-27 08:00:34.725"),
     },
   ]);
 };

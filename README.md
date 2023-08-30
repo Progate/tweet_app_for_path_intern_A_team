@@ -1,3 +1,11 @@
+# Team Links
+
+- Asana
+  - https://app.asana.com/0/1205215227306580/1205215227838504
+- Google docs
+  - DesignDoc: https://docs.google.com/document/d/19mFD9JZ3zxIEGIyncBp4FYFTaEtC_IeRl2ux4v1VEFw/edit
+  - Memo: https://docs.google.com/document/d/1obzEBjwnnRH-_6qyWwHVl7tBEAku8vI8fhKcdl15pC4/edit
+
 # TweetApp
 
 ## Install prerequisites
