@@ -104,10 +104,9 @@ const toggleSelectableItems = item => {
     followsFollowersList.removeChild(item);
   });
 
-  if (apiEndpoint === apiUrls.followersYouFollow)
-  {
+  if (apiEndpoint === apiUrls.followersYouFollow) {
     followersYouFollowAlternative(followsFollowersList);
-    return
+    return;
   }
 
   if (apiEndpoint) {
@@ -163,19 +162,23 @@ const pushButton = button => {
 };
 
 //API実装が間に合わなかった場合無理やりリストを作成する
-const followersYouFollowAlternative = (list) => {
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+const followersYouFollowAlternative = list => {
   fetch(`/users/${myUserID}/followings`)
-      .then(response => response.json())
-      .then(myFollowings => {
-          fetch(apiUrls.followers)
-              .then(response => response.json())
-              .then(myFollowers => {
-                const followersYouFollowList = myFollowers.filter(user => myFollowings.some(following => following.id === user.id));
-                addUsersToUserList(list, followersYouFollowList);
-              });
-      });
+    .then(response => response.json())
+    .then(myFollowings => {
+      fetch(apiUrls.followers)
+        .then(response => response.json())
+        .then(myFollowers => {
+          const followersYouFollowList = myFollowers.filter(user =>
+            myFollowings.some(following => following.id === user.id)
+          );
+          addUsersToUserList(list, followersYouFollowList);
+        });
+    });
 };
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const addUsersToUserList = (list, users) => {
   users.forEach(user => {
     const div = document.createElement("div");
@@ -211,5 +214,4 @@ const addUsersToUserList = (list, users) => {
 
     list.appendChild(div);
   });
-}
-
+};
