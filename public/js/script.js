@@ -146,9 +146,9 @@ const followersYouFollowAlternative = list => {
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const addUsersToUserList = (list, users) => {
-  users.forEach(user => {
+  users.forEach((user, index) => {
     const div = document.createElement("div");
-    div.className = "users-index-item";
+    div.className = "users-index-item anim";
 
     const userLeft = document.createElement("div");
     userLeft.className = "user-left";
@@ -179,6 +179,10 @@ const addUsersToUserList = (list, users) => {
     }
 
     list.appendChild(div);
+
+    setTimeout(() => {
+      div.classList.add("visible");
+    }, 50 * (index + 1));
   });
 };
 

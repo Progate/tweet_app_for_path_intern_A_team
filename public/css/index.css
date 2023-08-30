@@ -675,6 +675,17 @@ input[type="checkbox"] {
   width: 100%;
 }
 
+.users-index-item.anim {
+  opacity: 0;
+  transform: translateX(200px);
+  transition: opacity 1s, transform 1s;
+}
+
+.users-index-item.anim.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
 .user-left img {
   width: 50px;
   height: 50px;
