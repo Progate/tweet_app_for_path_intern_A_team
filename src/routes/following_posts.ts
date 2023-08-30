@@ -7,6 +7,7 @@ type TweetType = "tweet" | "retweet" | "like";
 type Post = {
   id: number;
   content: string;
+  user: User;
 };
 type User = {
   id: number;
@@ -86,6 +87,11 @@ followingPostRouter.get("/", ensureAuthUser, async (req, res, next) => {
         post: {
           id: followingPost.id,
           content: followingPost.content,
+          user: {
+            id: followingPost.user.id,
+            name: followingPost.user.name,
+            imageName: followingPost.user.imageName,
+          }
         },
         user: {
           id: followingPost.user.id,
@@ -102,6 +108,11 @@ followingPostRouter.get("/", ensureAuthUser, async (req, res, next) => {
           post: {
             id: followingRetweet.post.id,
             content: followingRetweet.post.content,
+            user: {
+              id: followingRetweet.post.user.id,
+              name: followingRetweet.post.user.name,
+              imageName: followingRetweet.post.user.imageName,
+            }
           },
           user: {
             id: followingRetweet.post.user.id,
