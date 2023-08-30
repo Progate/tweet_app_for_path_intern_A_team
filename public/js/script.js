@@ -182,6 +182,13 @@ const addUsersToUserList = (list, users) => {
       div.classList.add("visible");
     }, 50 * (index + 1));
   });
+
+  //下までスクロールした時のマージン用
+  const div = document.createElement("div");
+  div.className = "users-index-item";
+  div.style.visibility = "hidden";
+  list.appendChild(div);
+
 };
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
