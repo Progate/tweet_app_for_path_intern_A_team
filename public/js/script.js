@@ -8,7 +8,9 @@ const apiUrls = {
   unfollow: `/follow`,
 };
 
-const followerElement = document.querySelector('.followers .link-ken-the-ninja-num');
+const followerElement = document.querySelector(
+  ".followers .link-ken-the-ninja-num"
+);
 
 const selectableItems = document.querySelectorAll(".selectable-item");
 const modal = document.querySelector(".modal");
