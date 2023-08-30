@@ -57,10 +57,14 @@ followingPostRouter.get("/", ensureAuthUser, async (req, res, next) => {
       },
     },
   });
+  const followingUserIdsWithMe =
+    currentUserId !== undefined
+      ? followingUserIds.concat(currentUserId)
+      : followingUserIds;
   const followingRetweetPosts = await prisma.retweet.findMany({
     where: {
       userId: {
-        in: 1,
+        in: followingUserIdsWithMe,
       },
     },
     select: {
