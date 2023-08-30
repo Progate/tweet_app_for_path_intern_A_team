@@ -15,7 +15,6 @@ let myUserID;
 if (myLink) {
   const url = new URL(myLink.href);
   myUserID = Number(url.pathname.split("/").pop());
-} else {
 }
 
 let followersItem, followingItem;
