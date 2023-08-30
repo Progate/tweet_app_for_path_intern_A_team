@@ -14,14 +14,16 @@
         <div class="follows-followers">
           <div class="followers" href="">
             <div class="link-ken-the-ninja-num">
-              4</div>
+              <%= followerCount %>
+            </div>
             <div class="link-ken-the-ninja">
               Followers</div>
           </div>
           <div class="vector1"></div>
           <div class="following">
             <div class="link-ken-the-ninja-num">
-              3</div>
+              <%= followingCount %>
+            </div>
             <div class="link-ken-the-ninja">
               Following</div>
           </div>
@@ -29,7 +31,9 @@
       </div>
       <% if(currentUser.id===user.id) { %>
         <a href="<%= `/users/${user.id}/edit` %>">Edit</a>
-        <% } else { %>
+        <% } else if(hasFollowed) { %>
+          <div class="button following" data-user-id="<%= user.id %>"></div>
+          <% } else { %>
           <div class="button follow" data-user-id="<%= user.id %>"></div>
           <% } %>
 
