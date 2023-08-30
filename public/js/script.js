@@ -8,6 +8,8 @@ const apiUrls = {
   unfollow: `/follow`,
 };
 
+const followerElement = document.querySelector('.followers .link-ken-the-ninja-num');
+
 const selectableItems = document.querySelectorAll(".selectable-item");
 const modal = document.querySelector(".modal");
 const myLink = document.querySelector('a[data-test="header-link-mypage"]');
@@ -118,49 +120,6 @@ const toggleSelectableItems = item => {
   }
 };
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const pushButton = button => {
-  const userID = button.getAttribute("data-user-id");
-  let apiEndpoint, apiMethod, removeClass, addClass;
-
-  if (button.classList.contains("follow")) {
-    apiEndpoint = `${apiUrls.follow}/${userID}`;
-    apiMethod = "POST";
-    removeClass = "follow";
-    addClass = "following";
-  } else if (button.classList.contains("following")) {
-    apiEndpoint = `${apiUrls.unfollow}/${userID}`;
-    apiMethod = "DELETE";
-    removeClass = "following";
-    addClass = "follow";
-  } else {
-    return;
-  }
-
-  // ボタンの表示を切り替える
-  button.classList.remove(removeClass);
-  button.classList.add(addClass);
-
-  fetch(apiEndpoint, {
-    method: apiMethod,
-  })
-    .then(response => response.json())
-    .then(data => {
-      if (!data.success) {
-        // エラーが発生した場合は、元に戻す
-        button.classList.remove(addClass);
-        button.classList.add(removeClass);
-        alert("エラーが発生しました。もう一度お試しください。");
-      }
-    })
-    .catch(() => {
-      // エラーが発生した場合は、元に戻す
-      button.classList.remove(addClass);
-      button.classList.add(removeClass);
-      alert("エラーが発生しました。もう一度お試しください。");
-    });
-};
-
 //API実装が間に合わなかった場合無理やりリストを作成する
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const followersYouFollowAlternative = list => {
@@ -214,4 +173,47 @@ const addUsersToUserList = (list, users) => {
 
     list.appendChild(div);
   });
+};
+
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+const pushButton = button => {
+  const userID = button.getAttribute("data-user-id");
+  let apiEndpoint, apiMethod, removeClass, addClass;
+
+  if (button.classList.contains("follow")) {
+    apiEndpoint = `${apiUrls.follow}/${userID}`;
+    apiMethod = "POST";
+    removeClass = "follow";
+    addClass = "following";
+  } else if (button.classList.contains("following")) {
+    apiEndpoint = `${apiUrls.unfollow}/${userID}`;
+    apiMethod = "DELETE";
+    removeClass = "following";
+    addClass = "follow";
+  } else {
+    return;
+  }
+
+  // ボタンの表示を切り替える
+  button.classList.remove(removeClass);
+  button.classList.add(addClass);
+
+  fetch(apiEndpoint, {
+    method: apiMethod,
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (!data.success) {
+        // エラーが発生した場合は、元に戻す
+        button.classList.remove(addClass);
+        button.classList.add(removeClass);
+        alert("エラーが発生しました。もう一度お試しください。");
+      }
+    })
+    .catch(() => {
+      // エラーが発生した場合は、元に戻す
+      button.classList.remove(addClass);
+      button.classList.add(removeClass);
+      alert("エラーが発生しました。もう一度お試しください。");
+    });
 };
