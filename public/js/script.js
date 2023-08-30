@@ -1,11 +1,9 @@
-const thisUserID = Number(location.pathname.split("/")[2])
+const thisUserID = Number(location.pathname.split("/")[2]);
 
 const apiUrls = {
   followers: `/users/${thisUserID}/followers`,
   followings: `/users/${thisUserID}/followings`,
-  followersYouFollow: `/users/${
-    thisUserID
-  }/followers_you_follow`,
+  followersYouFollow: `/users/${thisUserID}/followers_you_follow`,
   follow: `/follow`,
   unfollow: `/follow`,
 };
@@ -221,14 +219,14 @@ const pushButton = button => {
         alert("エラーが発生しました。もう一度お試しください。");
       }
 
-      if(apiMethod==="POST" && userID===thisUserID){
+      if (apiMethod === "POST" && userID === thisUserID) {
         followersCount.textContent = parseInt(followersCount.textContent) + 1;
-      } else if(apiMethod==="DELETE" && userID===thisUserID){
+      } else if (apiMethod === "DELETE" && userID === thisUserID) {
         followersCount.textContent = parseInt(followersCount.textContent) - 1;
       }
-      if(apiMethod==="POST" && thisUserID===myUserID){
+      if (apiMethod === "POST" && thisUserID === myUserID) {
         followingsCount.textContent = parseInt(followingsCount.textContent) + 1;
-      } else if(apiMethod==="DELETE" && thisUserID===myUserID){
+      } else if (apiMethod === "DELETE" && thisUserID === myUserID) {
         followingsCount.textContent = parseInt(followingsCount.textContent) - 1;
       }
     })
