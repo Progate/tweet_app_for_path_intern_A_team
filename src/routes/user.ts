@@ -89,11 +89,22 @@ userRouter.get("/:userId", ensureAuthUser, async (req, res, next) => {
 /** A page to list all tweets liked by a user */
 userRouter.get("/:userId/likes", ensureAuthUser, async (req, res, next) => {
   const {userId} = req.params;
+  const currentUserId = req.authentication?.currentUserId;
+  const userNumber = Number(userId);
   const userTimeline = await getUserLikesTimeline(Number(userId));
   if (!userTimeline)
     return next(new Error("Invalid error: The user is undefined."));
   const {user, timeline} = userTimeline;
+  const followingCount = await getFollowingCount(userNumber);
+  const followerCount = await getFollowedCount(userNumber);
+  const hasFollowed =
+    currentUserId !== undefined
+      ? await hasFollow(currentUserId, userNumber)
+      : false;
   res.render("users/likes", {
+    followingCount,
+    followerCount,
+    hasFollowed,
     user,
     timeline,
   });
