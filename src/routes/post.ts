@@ -7,6 +7,7 @@ import {getAllPostTimeline} from "@/models/user_timeline";
 import {getPostLikedCount, hasUserLikedPost} from "@/models/like";
 import {ensureAuthUser} from "@/middlewares/authentication";
 import {ensureOwnerOfPost} from "@/middlewares/current_user";
+import { hasFollow } from "@/models/follow";
 export const postRouter = express.Router();
 
 postRouter.get("/", ensureAuthUser, async (req, res) => {
@@ -41,6 +42,7 @@ postRouter.get("/:postId", ensureAuthUser, async (req, res, next) => {
   const hasLiked = await hasUserLikedPost(currentUserId, post.id);
   const retweetCount = await getPostRetweetedCount(post.id);
   const hasRetweeted = await hasUserRetweetedPost(currentUserId, post.id);
+  const hasFollowed = await hasFollow(currentUserId, post.userId)
   res.render("posts/show", {
     post,
     formatDate,
@@ -48,6 +50,7 @@ postRouter.get("/:postId", ensureAuthUser, async (req, res, next) => {
     hasLiked,
     retweetCount,
     hasRetweeted,
+    hasFollowed,
   });
 });
 
