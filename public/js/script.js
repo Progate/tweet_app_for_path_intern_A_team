@@ -10,6 +10,12 @@ const apiUrls = {
 
 const selectableItems = document.querySelectorAll(".selectable-item");
 const modal = document.querySelector(".modal");
+const myLink = document.querySelector('a[data-test="header-link-mypage"]');
+let myUserID;
+if (myLink) {
+  const url = new URL(myLink.href);
+  myUserID = Number(url.pathname.split("/").pop());
+}
 
 let followersItem, followingItem;
 
@@ -122,16 +128,17 @@ const toggleFollowersFollowing = item => {
           userLink.textContent = user.name;
           userRight.appendChild(userLink);
           div.appendChild(userRight);
-
-          const followButton = document.createElement("div");
-          followButton.className = "follows-followers-list-button";
-          const followButtonInner = document.createElement("div");
-          followButtonInner.className = user.follow
-            ? "following button"
-            : "follow button";
-          followButtonInner.setAttribute("data-user-id", user.id);
-          followButton.appendChild(followButtonInner);
-          div.appendChild(followButton);
+          if (myUserID !== user.id) {
+            const followButton = document.createElement("div");
+            followButton.className = "follows-followers-list-button";
+            const followButtonInner = document.createElement("div");
+            followButtonInner.className = user.hasFollowed
+              ? "following button"
+              : "follow button";
+            followButtonInner.setAttribute("data-user-id", user.id);
+            followButton.appendChild(followButtonInner);
+            div.appendChild(followButton);
+          }
 
           followsFollowersList.appendChild(div);
         });
