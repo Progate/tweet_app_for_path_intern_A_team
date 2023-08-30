@@ -1,15 +1,26 @@
 import express from "express";
-import {body, validationResult} from "express-validator";
-import {formatDate} from "@/lib/convert_date";
-import {getPost, createPost, updatePost, deletePost} from "@/models/post";
-import {getPostRetweetedCount, hasUserRetweetedPost} from "@/models/retweet";
-import {getAllPostTimeline} from "@/models/user_timeline";
-import {getPostLikedCount, hasUserLikedPost} from "@/models/like";
 import {ensureAuthUser} from "@/middlewares/authentication";
-import {ensureOwnerOfPost} from "@/middlewares/current_user";
 import {databaseManager} from "@/db";
-import {Touchscreen} from "puppeteer";
 export const followingPostRouter = express.Router();
+
+type TweetType = "tweet" | "retweet" | "like";
+type Post = {
+  id: number;
+  content: string;
+  user: User;
+};
+type User = {
+  id: number;
+  name: string;
+  imageName: string;
+};
+
+type Timeline = {
+  type: TweetType;
+  post: Post;
+  user: User;
+  activedAt: Date;
+};
 
 followingPostRouter.get("/", ensureAuthUser, async (req, res, next) => {
   const prisma = databaseManager.getInstance();
@@ -28,9 +39,6 @@ followingPostRouter.get("/", ensureAuthUser, async (req, res, next) => {
   });
   // followings一覧に紐づくposts一覧を取得
   const followingPosts = await prisma.post.findMany({
-    orderBy: {
-      createdAt: "desc",
-    },
     where: {
       userId: {
         in: followingUserIds,
@@ -39,15 +47,92 @@ followingPostRouter.get("/", ensureAuthUser, async (req, res, next) => {
     select: {
       id: true,
       content: true,
+      createdAt: true,
       user: {
         select: {
           id: true,
+          name: true,
+          imageName: true,
         },
       },
     },
   });
-  console.log(followingPosts);
+  const followingUserIdsWithMe =
+    currentUserId !== undefined
+      ? followingUserIds.concat(currentUserId)
+      : followingUserIds;
+  const followingRetweetPosts = await prisma.retweet.findMany({
+    where: {
+      userId: {
+        in: followingUserIdsWithMe,
+      },
+    },
+    select: {
+      retweetedAt: true,
+      post: {
+        select: {
+          id: true,
+          content: true,
+          user: {
+            select: {
+              id: true,
+              name: true,
+              imageName: true,
+            },
+          },
+        },
+      },
+    },
+  });
+  const timeline: Timeline[] = followingPosts
+    .map((followingPost): Timeline => {
+      return {
+        type: "tweet",
+        post: {
+          id: followingPost.id,
+          content: followingPost.content,
+          user: {
+            id: followingPost.user.id,
+            name: followingPost.user.name,
+            imageName: followingPost.user.imageName,
+          },
+        },
+        user: {
+          id: followingPost.user.id,
+          name: followingPost.user.name,
+          imageName: followingPost.user.imageName,
+        },
+        activedAt: followingPost.createdAt,
+      };
+    })
+    .concat(
+      followingRetweetPosts.map((followingRetweet): Timeline => {
+        return {
+          type: "retweet",
+          post: {
+            id: followingRetweet.post.id,
+            content: followingRetweet.post.content,
+            user: {
+              id: followingRetweet.post.user.id,
+              name: followingRetweet.post.user.name,
+              imageName: followingRetweet.post.user.imageName,
+            },
+          },
+          user: {
+            id: followingRetweet.post.user.id,
+            name: followingRetweet.post.user.name,
+            imageName: followingRetweet.post.user.imageName,
+          },
+          activedAt: followingRetweet.retweetedAt,
+        };
+      })
+    );
+
+  timeline.sort((a, b) => {
+    return b.activedAt.getTime() - a.activedAt.getTime();
+  });
+
   res.render("following_posts/index", {
-    followingPosts,
+    timeline,
   });
 });
