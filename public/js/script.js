@@ -1,15 +1,20 @@
+const thisUserID = Number(location.pathname.split("/")[2])
+
 const apiUrls = {
-  followers: `/users/${location.pathname.split("/")[2]}/followers`,
-  followings: `/users/${location.pathname.split("/")[2]}/followings`,
+  followers: `/users/${thisUserID}/followers`,
+  followings: `/users/${thisUserID}/followings`,
   followersYouFollow: `/users/${
-    location.pathname.split("/")[2]
+    thisUserID
   }/followers_you_follow`,
   follow: `/follow`,
   unfollow: `/follow`,
 };
 
-const followerElement = document.querySelector(
-  ".followers .link-ken-the-ninja-num"
+const followersCount = document.querySelector(
+  ".followers .link-follows-followers-num"
+);
+const followingsCount = document.querySelector(
+  ".following .link-follows-followers-num"
 );
 
 const selectableItems = document.querySelectorAll(".selectable-item");
@@ -32,10 +37,10 @@ window.addEventListener("click", () => {
   ) {
     modal.classList.add("show");
     modalClickEnabled = false;
+    followersItem.click();
     setTimeout(() => {
       modalClickEnabled = true;
     }, 300);
-    followersItem.click();
   }
 
   if (
@@ -44,10 +49,10 @@ window.addEventListener("click", () => {
   ) {
     modal.classList.add("show");
     modalClickEnabled = false;
+    followingItem.click();
     setTimeout(() => {
       modalClickEnabled = true;
     }, 300);
-    followingItem.click();
   }
 
   if (event.target.classList.contains("close-button")) {
@@ -179,7 +184,7 @@ const addUsersToUserList = (list, users) => {
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const pushButton = button => {
-  const userID = button.getAttribute("data-user-id");
+  const userID = Number(button.getAttribute("data-user-id"));
   let apiEndpoint, apiMethod, removeClass, addClass;
 
   if (button.classList.contains("follow")) {
@@ -210,6 +215,17 @@ const pushButton = button => {
         button.classList.remove(addClass);
         button.classList.add(removeClass);
         alert("エラーが発生しました。もう一度お試しください。");
+      }
+
+      if(apiMethod==="POST" && userID===thisUserID){
+        followersCount.textContent = parseInt(followersCount.textContent) + 1;
+      } else if(apiMethod==="DELETE" && userID===thisUserID){
+        followersCount.textContent = parseInt(followersCount.textContent) - 1;
+      }
+      if(apiMethod==="POST" && thisUserID===myUserID){
+        followingsCount.textContent = parseInt(followingsCount.textContent) + 1;
+      } else if(apiMethod==="DELETE" && thisUserID===myUserID){
+        followingsCount.textContent = parseInt(followingsCount.textContent) - 1;
       }
     })
     .catch(() => {
